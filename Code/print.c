@@ -47,8 +47,9 @@ c_function_print_cons(object cons, object stream)
   while(c_function_consp(remaining) == symbol_t)
     {
       c_function_print(c_function_car(remaining), stream);
-      c_function_stream_write_char(stream, space);
       remaining = c_function_cdr(remaining);
+      if(remaining != symbol_nil)
+        c_function_stream_write_char(stream, space);
     }
   if(remaining == symbol_nil)
     c_function_stream_write_char(stream, right_parenthesis);
