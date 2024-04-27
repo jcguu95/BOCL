@@ -72,7 +72,7 @@ c_function_print_integer(__attribute__((unused)) object integer, object stream)
 }
 
 void
-c_function_print_unknown(__attribute__((unused)) object unknoen, object stream)
+c_function_print_unknown(__attribute__((unused)) object unknown, object stream)
 {
   object questionmark = c_function_char_to_character('?');
   c_function_stream_write_char(stream, questionmark);
