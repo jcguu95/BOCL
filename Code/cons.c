@@ -1,6 +1,7 @@
 #include "cons.h"
 #include "symbol.h"
 #include "control.h"
+#include <stdio.h>
 
 DEFINE_CLASS(class_cons);
 
@@ -78,6 +79,16 @@ object
 list5(object element1, object element2, object element3, object element4, object element5)
 {
   return cfun_cons(element1, list4(element2, element3, element4, element5));
+}
+
+object
+cfun_list(object objects[], size_t size) {
+    object result = symbol_nil;
+    for (size_t i = size - 1; i > 0; i--) {
+        result = cfun_cons(objects[i], result);
+    }
+    result = cfun_cons(objects[0], result);
+    return result;
 }
 
 object

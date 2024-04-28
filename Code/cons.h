@@ -16,6 +16,7 @@ extern object list2(object element1, object element2);
 extern object list3(object element1, object element2, object element3);
 extern object list4(object element1, object element2, object element3, object element4);
 extern object list5(object element1, object element2, object element3, object element4, object element5);
+extern object cfun_list(object objects[], size_t size);
 
 extern object class_cons;
 

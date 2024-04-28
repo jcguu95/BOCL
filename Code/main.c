@@ -40,6 +40,14 @@ int main(void)
          symbol_nil)))),
      standard_output);
 
+  /* printing lists */
+  printf("\n");
+  printf("\n");
+  object obj_arr[] = {x, y, symbol_nil, z};
+  size_t size = sizeof(obj_arr) / sizeof(obj_arr[0]);
+  cfun_print(cfun_list(obj_arr, size), standard_output);
+
+  /* user input */
   printf("\nPlease say something:\n");
   cfun_print(substandard_reader(stdin), standard_output);
 
