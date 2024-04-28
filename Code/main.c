@@ -29,11 +29,12 @@ int main(void)
   object x = cfun_integer_to_integer(19);
   object y = cfun_integer_to_integer(23);
   object z = cfun_binary_add_integer(x, y);
-  printf("The answer is %ld.\n", cfun_integer_to_c_integer(z));
+  printf("The answer is %ld.", cfun_integer_to_c_integer(z));
+  printf("\n");
 
   /* Print a lisp string. */
-  char message[] = "Hello, lisp!\n";
-  cfun_print(cfun_string_to_string(message), standard_output);
+  cfun_print(cfun_string_to_string("LISP"), standard_output);
+  printf("\n");
 
   /* Print a short cons. */
   cfun_print
@@ -51,10 +52,10 @@ int main(void)
       (symbol_block,
        symbol_nil)),
      standard_output);
+  printf("\n");
 
   /* Print a list. */
-  printf("\n");
-  object obj_arr[] = {x, y, symbol_nil, z};
+  object obj_arr[] = {x, y, z, symbol_nil, cfun_string_to_string("LISP")};
   size_t size = sizeof(obj_arr) / sizeof(obj_arr[0]);
   cfun_print(cfun_list(obj_arr, size), standard_output);
 
