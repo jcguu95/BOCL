@@ -6,6 +6,7 @@
 #include "integer.h"
 #include "substandard-reader.h"
 #include <stdio.h>
+#include <stdbool.h>
 
 int
 next_interesting_character(FILE *stream)
@@ -22,12 +23,42 @@ object
 substandard_list_reader(FILE *stream)
 {
   int c = next_interesting_character(stream);
-  if(c == ')')
+  if (c == ')') {
     return symbol_nil;
-  {
+  } else {
     ungetc(c, stream);
     object element = substandard_reader(stream);
     return cfun_cons(element, substandard_list_reader(stream));
+  }
+}
+
+object
+substandard_string_reader(FILE *stream)
+{
+  int c = next_interesting_character(stream);
+  if (c == '"') {
+    return cfun_string_to_string("");
+  } else {
+    ungetc(c, stream);
+    unsigned long i = 0;
+    char str[10000]; /* TODO May need a larger value? */
+    bool escape_flag = false;
+    for (; ((c = getchar()) != '"' && i < sizeof(str)-1) || escape_flag ; ) {
+      if (escape_flag) {
+        escape_flag = false;
+        str[i] = c;
+        i++;
+      } else {
+        if (c == '\\') {
+          escape_flag = true;
+        } else {
+          str[i] = c;
+          i++;
+        }
+      }
+    }
+    str[i] = '\0';
+    return cfun_string_to_string(str);
   }
 }
 
@@ -70,41 +101,38 @@ object
 substandard_reader(FILE *stream)
 {
   int c = next_interesting_character(stream);
-  if(c == ';')
-    {
-      for(c = getc(stream); c != 10; c = getc(stream))
-        ;
-      return substandard_reader(stream);
+  if (c == ';') {
+    for (c = getc(stream); c != 10; c = getc(stream));
+    return substandard_reader(stream);
+  } else if (c == '(') {
+    return substandard_list_reader(stream);
+  } else if (c == '"') {
+    return substandard_string_reader(stream);
+  } else {
+    char buffer[1000];
+    buffer[0] = c;
+    int next = 1;
+    for (c = getc(stream);
+         c != -1 && c < 128 && constituent[c];
+         c = getc(stream)) {
+      buffer[next++] = c;
     }
-  else if(c == '(')
-    {
-      return substandard_list_reader(stream);
+    ungetc(c, stream);
+    buffer[next] = 0;
+    if (all_digits_p(buffer + 1) && (buffer[0] == '-' || is_digit(buffer[0]))) {
+      if (buffer[0] == '-') {
+        return cfun_integer_to_integer(-parse_positive_integer(buffer + 1));
+      } else {
+        return cfun_integer_to_integer(parse_positive_integer(buffer));
+      }
+    } else {
+      for (int i = 0; buffer[i] != 0; i++) {
+        if (buffer[i] >= 'a' && buffer[i] <= 'z') {
+          buffer[i] -= 32;
+        }
+      }
+      object string = cfun_string_to_string(buffer);
+      return cfun_intern(string, current_package);
     }
-  else
-    {
-      char buffer[1000];
-      buffer[0] = c;
-      int next = 1;
-      for(c = getc(stream);
-          c != -1 && c < 128 && constituent[c];
-          c = getc(stream))
-        buffer[next++] = c;
-      ungetc(c, stream);
-      buffer[next] = 0;
-      if(all_digits_p(buffer + 1) && (buffer[0] == '-' || is_digit(buffer[0])))
-        {
-          if(buffer[0] == '-')
-            return cfun_integer_to_integer(-parse_positive_integer(buffer + 1));
-          else
-            return cfun_integer_to_integer(parse_positive_integer(buffer));
-        }
-      else
-        {
-          for(int i = 0; buffer[i] != 0; i++)
-            if(buffer[i] >= 'a' && buffer[i] <= 'z')
-              buffer[i] -= 32;
-          object string = cfun_string_to_string(buffer);
-          return cfun_intern(string, current_package);
-        }
-   }
+  }
 }

@@ -34,7 +34,9 @@ int main(void)
   printf("The answer is %ld.", cfun_integer_to_c_integer(z));
   printf("\n");
 
-  /* Print a lisp string. */
+  /* Print lisp strings. */
+  cfun_print(cfun_string_to_string(""), standard_output);
+  printf("\n");
   cfun_print(cfun_string_to_string("LISP"), standard_output);
   printf("\n");
 
@@ -79,7 +81,10 @@ int main(void)
   printf("\nSay something: ");
   object tmp = substandard_reader(stdin);
   cfun_print(tmp, standard_output);
-
   printf("\n");
+
+  /* TODO: Add code to test substandard_reader automatically. */
+  /*   e.g. it can now read "\\abc\"123\"" correctly. */
+
   return 0;
 }

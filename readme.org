@@ -1,9 +1,9 @@
 * TODOs
 
-1. Implement basic object types and printer.
+1. [X] Implement basic object types and printer.
 
    This will be helpful for printing debug message later.
 
-2. Implement a reader only for symbols, lists, and strings.
+2. [X] Implement a reader only for symbols, lists, and strings.
 
 3. Implement an evaluator and 25 special ops.

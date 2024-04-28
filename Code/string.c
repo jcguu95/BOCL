@@ -55,6 +55,7 @@ cfun_make_string(object size, object initial_element)
 object
 cfun_char(object string, object index)
 {
+  /* DOC: Return the index'th character from the lisp string. */
   assert(cfun_stringp(string) == symbol_t);
   assert(cfun_integerp(index) == symbol_t);
   {
