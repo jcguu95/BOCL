@@ -5,16 +5,16 @@
 
 extern void ensure_symbol_initialized(void);
 
-extern object c_function_symbol_to_symbol(char *s, object package);
+extern object cfun_symbol_to_symbol(char *s, object package);
 
-extern object c_function_make_symbol(object name, object package);
-extern object c_function_symbol_name(object symbol);
-extern object c_function_symbol_package(object symbol);
+extern object cfun_make_symbol(object name, object package);
+extern object cfun_symbol_name(object symbol);
+extern object cfun_symbol_package(object symbol);
 extern object symbol_slot_function(object symbol);
 extern void set_symbol_slot_function(object symbol, object function);
-extern object c_function_symbol_slot_value(object symbol);
-extern void c_function_set_symbol_slot_value(object symbol, object value);
-extern object c_function_symbolp(object maybe_symbol);
+extern object cfun_symbol_slot_value(object symbol);
+extern void cfun_set_symbol_slot_value(object symbol, object value);
+extern object cfun_symbolp(object maybe_symbol);
 
 extern object class_symbol;
 

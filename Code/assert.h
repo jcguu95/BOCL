@@ -3,6 +3,6 @@
 
 #include "object.h"
 
-extern void c_function_assert(object obj);
+extern void cfun_assert(object obj);
 
 #endif

@@ -3,6 +3,6 @@
 
 #include "object.h"
 
-extern object c_function_print(object obj, object stream);
+extern object cfun_print(object obj, object stream);
 
 #endif
