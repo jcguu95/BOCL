@@ -1,6 +1,8 @@
 #include <stdio.h>
+#include <string.h>
 
 #include "assert.h"
+#include "equivalence.h"
 #include "object.h"
 #include "character.h"
 #include "string.h"
@@ -14,8 +16,6 @@
 #include "function.h"
 
 #include "substandard-reader.h"
-
-#include <string.h>
 
 int main(void)
 {
@@ -75,12 +75,73 @@ int main(void)
   printf("\n");
 
   /* Print a list. */
-  object obj_arr[] = {x, y, z, symbol_nil, cfun_string_to_string("LISP")};
+  object obj_arr[] = {cfun_string_to_string("LISP"), x, y, z, symbol_nil};
   size_t size = sizeof(obj_arr) / sizeof(obj_arr[0]);
   cfun_print(cfun_list(obj_arr, size), standard_output);
+  printf("\n");
+
+  cfun_assert
+    (cfun_equal
+     (cfun_string_to_string("LISP"),
+      substandard_reader
+      (str_to_stream("\"LISP\""))));
+  printf("PASS: String Test.");
+  printf("\n");
+
+  cfun_assert(cfun_equal(symbol_nil, symbol_nil));
+  printf("PASS: NIL test.");
+  printf("\n");
+
+  cfun_assert
+    (cfun_equal
+     (substandard_reader(str_to_stream("nil")),
+      symbol_nil));
+  printf("PASS: NIL test 2.");
+  printf("\n");
+
+  cfun_assert
+    (cfun_equal
+     (cfun_cons
+      (z,
+       cfun_cons
+       (z, symbol_nil)),
+      substandard_reader
+      (str_to_stream("(42 42)"))));
+  printf("PASS: List Test.");
+  printf("\n");
+
+  cfun_assert
+    (cfun_equal
+     (cfun_cons
+      (symbol_nil,
+       cfun_cons
+       (z, symbol_nil)),
+      substandard_reader
+      (str_to_stream("(() 42)"))));
+  printf("PASS: List Test 2.");
+  printf("\n");
+
+  cfun_assert
+    (cfun_equal
+     (cfun_cons
+      (z,
+       cfun_cons
+       (symbol_nil, symbol_nil)),
+      substandard_reader
+      (str_to_stream("(42 nil)"))));
+  printf("PASS: List Test.");
+  printf("\n");
+
+  cfun_assert
+    (cfun_equal
+     (cfun_list(obj_arr, size),
+      substandard_reader
+      (str_to_stream("(\"LISP\" 19 23 42 nil)"))));
+  printf("\n");
 
   /* Test for substandard_reader */
-  cfun_print(substandard_reader(str_to_stream("(1 2 4)")), standard_output);
+  /* cfun_print(substandard_reader(str_to_stream("(1 2 4)")), standard_output); */
+  /* printf("\n"); */
   /* /\* user input *\/ */
   /* printf("\nSay something: "); */
   /* object tmp = substandard_reader(stdin); */

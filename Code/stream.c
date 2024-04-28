@@ -2,6 +2,7 @@
 #include "symbol.h"
 #include "character.h"
 #include <stdio.h>
+#include <string.h>
 
 DEFINE_CLASS(class_stream);
 
@@ -65,7 +66,7 @@ cfun_stream_write_char(object stream, object character)
 
 FILE *str_to_stream(char *str) {
   /* DOC: Turn a C string into a FILE stream. */
-    FILE *stream;
-    stream = fmemopen(str, strlen(str), "r");
-    return stream;
+  FILE *stream;
+  stream = fmemopen(str, strlen(str), "r");
+  return stream;
 }

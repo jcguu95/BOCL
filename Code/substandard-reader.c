@@ -43,7 +43,8 @@ substandard_string_reader(FILE *stream)
     unsigned long i = 0;
     char str[10000]; /* TODO May need a larger value? */
     bool escape_flag = false;
-    for (; ((c = getchar()) != '"' && i < sizeof(str)-1) || escape_flag ; ) {
+    for (; ((c = fgetc(stream)) != '"' && i < sizeof(str)-1) || escape_flag; ) {
+      assert(c != '\377'); /* TODO: Print better error message. */
       if (escape_flag) {
         escape_flag = false;
         str[i] = c;

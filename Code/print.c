@@ -6,8 +6,6 @@
 #include "cons.h"
 #include "integer.h"
 #include "print.h"
-/* TODO remove the following after debugging. */
-#include <stdio.h>
 
 void
 cfun_print_symbol(object symbol, object stream)

@@ -2,7 +2,8 @@ CFLAGS=-g -W -Wall
 
 OBJECT=object.o character.o main.o clos.o string.o package.o symbol.o\
        cons.o float.o integer.o ratio.o stream.o assert.o print.o\
-       control.o function.o substandard-reader.o
+       control.o function.o substandard-reader.o\
+	   equivalence.o boolean.o
 
 all: $(OBJECT)
 	gcc -g -o bocl $(OBJECT) -lgmp -lm
@@ -11,6 +12,8 @@ clean:
 	rm -f bocl $(OBJECT)
 
 object.o: object.h
+equivalence.o: equivalence.h
+boolean.o: boolean.h
 character.o: character.h symbol.h character.c
 string.o: string.h symbol.h string.c character.h
 package.o: package.h symbol.h package.c
