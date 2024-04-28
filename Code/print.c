@@ -69,15 +69,19 @@ c_function_print_cons(object cons, object stream)
 }
 
 void
-c_function_print_integer(__attribute__((unused)) object integer, object stream)
+c_function_print_integer(object integer, object stream)
 {
-  object zero = c_function_char_to_character('0');
-  c_function_stream_write_char(stream, zero);
+  int num = c_function_integer_to_c_integer(integer);
+  char str[11];
+  int len = sprintf(str, "%d", num);
+  for (int i = 0; i < len; i++)
+    c_function_stream_write_char(stream, c_function_char_to_character(str[i]));
 }
 
 void
-c_function_print_unknown(__attribute__((unused)) object unknown, object stream)
+c_function_print_unknown(object unknown, object stream)
 {
+  (void)unknown;
   object questionmark = c_function_char_to_character('?');
   c_function_stream_write_char(stream, questionmark);
 }
