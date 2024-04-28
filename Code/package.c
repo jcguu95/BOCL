@@ -1111,7 +1111,8 @@ find_symbol_in_list(object string, object list)
       return symbol;
     }
   }
-  return symbol_nil;
+  /* FIXME: Is 0 of type object? */
+  return 0;
 }
 
 object
@@ -1120,11 +1121,11 @@ cfun_find_symbol(object string, object package)
   package_rack r = (package_rack) rack_of(package);
   object symbol;
   symbol = find_symbol_in_list(string, r -> external_symbols);
-  if (symbol != symbol_nil) {
+  if (symbol != 0) {
     return symbol;
   }
   symbol = find_symbol_in_list(string, r -> internal_symbols);
-  if (symbol != symbol_nil) {
+  if (symbol != 0) {
     return symbol;
   }
   for (object restp = r -> used_packages;
@@ -1133,9 +1134,11 @@ cfun_find_symbol(object string, object package)
     object p = cfun_car(restp);
     package_rack r = (package_rack) rack_of(p);
     symbol = find_symbol_in_list(string, r -> external_symbols);
-    if(symbol != symbol_nil)
+    if (symbol != 0) {
       return symbol;
+    }
   }
+  /* FIXME: Is 0 of type object? */
   return 0;
 }
 
@@ -1143,14 +1146,13 @@ object
 cfun_intern(object string, object package)
 {
   object symbol = cfun_find_symbol(string, package);
-  if(symbol != 0)
+  if (symbol != 0) {
     return symbol;
-  else
-    {
-      package_rack r = (package_rack) rack_of(package);
-      symbol = cfun_make_symbol(string, package);
-      r -> internal_symbols = cfun_cons(symbol, r -> internal_symbols);
-      return symbol;
-    }
+  } else {
+    package_rack r = (package_rack) rack_of(package);
+    symbol = cfun_make_symbol(string, package);
+    r -> internal_symbols = cfun_cons(symbol, r -> internal_symbols);
+    return symbol;
+  }
 }
 

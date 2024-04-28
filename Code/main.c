@@ -129,7 +129,7 @@ int main(void)
        (symbol_nil, symbol_nil)),
       substandard_reader
       (str_to_stream("(42 nil)"))));
-  printf("PASS: List Test.");
+  printf("PASS: List Test 3.");
   printf("\n");
 
   cfun_assert
@@ -137,6 +137,7 @@ int main(void)
      (cfun_list(obj_arr, size),
       substandard_reader
       (str_to_stream("(\"LISP\" 19 23 42 nil)"))));
+  printf("PASS: List Test 4.");
   printf("\n");
 
   /* Test for substandard_reader */
