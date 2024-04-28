@@ -81,14 +81,14 @@ list5(object element1, object element2, object element3, object element4, object
 }
 
 object
-l_function_cons(__attribute__((unused)) object static_environment, object arguments)
+lfun_cons(__attribute__((unused)) object static_environment, object arguments)
 {
   check_argument_count(arguments, 2, 2);
   return(cfun_cons(cfun_car(arguments), cfun_car(cfun_cdr(arguments))));
 }
 
 object
-l_function_car(__attribute__((unused)) object static_environment, object arguments)
+lfun_car(__attribute__((unused)) object static_environment, object arguments)
 {
   check_argument_count(arguments, 1, 1);
   object argument = cfun_car(arguments);
@@ -110,7 +110,7 @@ l_function_car(__attribute__((unused)) object static_environment, object argumen
 }
 
 object
-l_function_cdr(__attribute__((unused)) object static_environment, object arguments)
+lfun_cdr(__attribute__((unused)) object static_environment, object arguments)
 {
   check_argument_count(arguments, 1, 1);
   object argument = cfun_car(arguments);
