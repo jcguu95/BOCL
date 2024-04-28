@@ -69,7 +69,6 @@ char constituent[128] =
 object
 substandard_reader(FILE *stream)
 {
-  printf("\nDEBUG: Calling substandard_reader\n");
   int c = next_interesting_character(stream);
   if(c == ';')
     {
