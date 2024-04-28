@@ -40,6 +40,9 @@ cfun_cons(object car, object cdr)
 object
 cfun_car(object cons)
 {
+  if (cons == symbol_nil) {
+      return symbol_nil;
+  }
   assert(cfun_consp(cons) == symbol_t);
   return ((cons_rack) rack_of(cons)) -> car;
 }
@@ -47,6 +50,9 @@ cfun_car(object cons)
 object
 cfun_cdr(object cons)
 {
+  if (cons == symbol_nil) {
+      return symbol_nil;
+  }
   assert(cfun_consp(cons) == symbol_t);
   return ((cons_rack) rack_of(cons)) -> cdr;
 }

@@ -1667,7 +1667,7 @@ ensure_symbol_initialized(void)
   symbol_nbutlast = make_common_lisp_symbol("NBUTLAST");
   symbol_nconc = make_common_lisp_symbol("NCONC");
   symbol_next_method_p = make_common_lisp_symbol("NEXT-METHOD-P");
-  symbol_nil = make_common_lisp_symbol("NIL");
+  /* symbol_nil = make_common_lisp_symbol("NIL"); */
   symbol_nintersection = make_common_lisp_symbol("NINTERSECTION");
   symbol_ninth = make_common_lisp_symbol("NINTH");
   symbol_no_applicable_method = make_common_lisp_symbol("NO-APPLICABLE-METHOD");

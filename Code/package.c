@@ -32,26 +32,37 @@ struct package_rack
 
 static int package_rack_size = sizeof(struct package_rack);
 
+void
+make_common_lisp_package()
+{
+  /* NOTE This is almost the same as the subroutine of the function
+     make_package. We had to do this because the symbol CL:NIL (symbol_nil) is
+     used to represent the empty list, which is used when the CL package is
+     constructed.*/
+  object package = make_object();
+  package_rack r = (package_rack) malloc(package_rack_size);
+  symbol_nil = cfun_symbol_to_symbol("NIL", package); /* NOTE Global definition of symbol_nil. */
+  set_class_of(package, class_package);
+  set_rack_of(package, (rack) r);
+  r -> used_packages = symbol_nil;
+  r -> internal_symbols = symbol_nil;
+  r -> external_symbols = symbol_nil;
+  r -> name = cfun_string_to_string("COMMON-LISP");
+  r -> nicknames = cfun_cons(cfun_string_to_string("CL"), symbol_nil);
+  package_common_lisp = package;
+}
+
 object
 make_package()
 {
-  object result = make_object();
+  object package = make_object();
   package_rack r = (package_rack) malloc(package_rack_size);
   r -> used_packages = symbol_nil;
   r -> internal_symbols = symbol_nil;
   r -> external_symbols = symbol_nil;
-  set_class_of(result, class_package);
-  set_rack_of(result, (rack) r);
-  return result;
-}
-
-void
-make_common_lisp_package()
-{
-  package_common_lisp = make_package();
-  package_rack r = (package_rack) rack_of(package_common_lisp);
-  r -> name = cfun_string_to_string("COMMON-LISP");
-  r -> nicknames = cfun_cons(cfun_string_to_string("CL"), symbol_nil);
+  set_class_of(package, class_package);
+  set_rack_of(package, (rack) r);
+  return package;
 }
 
 void
@@ -107,6 +118,7 @@ ensure_package_initialized_2(void)
 {
   ensure_symbol_initialized();
   package_rack r = (package_rack) rack_of(package_common_lisp);
+  /* FIXME Does this repeat what make_common_lisp_symbol("ABORT") does? */
   r -> external_symbols = cfun_cons(symbol_abort, r -> external_symbols);
   r -> external_symbols = cfun_cons(symbol_abs, r -> external_symbols);
   r -> external_symbols = cfun_cons(symbol_acons, r -> external_symbols);
@@ -1091,14 +1103,15 @@ ensure_package_initialized_2(void)
 object
 find_symbol_in_list(object string, object list)
 {
-  for(object rest = list; rest != symbol_nil; rest = cfun_cdr(rest))
-    {
-      object symbol = cfun_car(rest);
-      object name = cfun_symbol_name(symbol);
-      if(cfun_string_equal_sign(name, string) == symbol_t)
-        return symbol;
+  for (object rest = list; rest != symbol_nil; rest = cfun_cdr(rest)) {
+    rest = cfun_cdr(rest);
+    object symbol = cfun_car(rest);
+    object name = cfun_symbol_name(symbol);
+    if (cfun_string_equal_sign(name, string) == symbol_t) {
+      return symbol;
     }
-  return 0;
+  }
+  return symbol_nil;
 }
 
 object
@@ -1107,21 +1120,22 @@ cfun_find_symbol(object string, object package)
   package_rack r = (package_rack) rack_of(package);
   object symbol;
   symbol = find_symbol_in_list(string, r -> external_symbols);
-  if(symbol != 0)
+  if (symbol != symbol_nil) {
     return symbol;
+  }
   symbol = find_symbol_in_list(string, r -> internal_symbols);
-  if(symbol != 0)
+  if (symbol != symbol_nil) {
     return symbol;
-  for(object restp = r -> used_packages;
-      restp != symbol_nil;
-      restp = cfun_cdr(restp))
-    {
-      object p = cfun_car(restp);
-      package_rack r = (package_rack) rack_of(p);
-      symbol = find_symbol_in_list(string, r -> external_symbols);
-      if(symbol != 0)
-        return symbol;
-    }
+  }
+  for (object restp = r -> used_packages;
+       restp != symbol_nil;
+       restp = cfun_cdr(restp)) {
+    object p = cfun_car(restp);
+    package_rack r = (package_rack) rack_of(p);
+    symbol = find_symbol_in_list(string, r -> external_symbols);
+    if(symbol != symbol_nil)
+      return symbol;
+  }
   return 0;
 }
 

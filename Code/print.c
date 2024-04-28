@@ -80,7 +80,7 @@ cfun_print_integer(object integer, object stream)
 void
 cfun_print_package(object package, object stream)
 {
-  char str[] = "<PACKAGE ";
+  char str[] = "#<PACKAGE ";
   for (int i = 0; str[i] != '\0'; i++) {
     cfun_stream_write_char(stream, cfun_char_to_character(str[i]));
   }
@@ -92,8 +92,12 @@ void
 cfun_print_unknown(object unknown, object stream)
 {
   (void)unknown;
-  object questionmark = cfun_char_to_character('?');
-  cfun_stream_write_char(stream, questionmark);
+  char str[] = "#<UNKNOWN ?>";
+  for (int i = 0; str[i] != '\0'; i++) {
+    cfun_stream_write_char(stream, cfun_char_to_character(str[i]));
+  }
+  /* object questionmark = cfun_char_to_character('?'); */
+  /* cfun_stream_write_char(stream, questionmark); */
 }
 
 object

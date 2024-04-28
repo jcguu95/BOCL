@@ -41,6 +41,16 @@ int main(void)
   /* Print a lisp package. */
   cfun_print(package_common_lisp, standard_output);
   printf("\n");
+  cfun_print(current_package, standard_output);
+  printf("\n");
+
+  /* Intern and print a lisp symbol. */
+  object string = cfun_string_to_string("ADHOC_symbol");
+  object symbol = cfun_intern(string, package_common_lisp);
+  cfun_print(symbol, standard_output);
+  printf(" in ");
+  cfun_print(cfun_symbol_package(symbol), standard_output);
+  printf("\n");
 
   /* Print a short cons. */
   cfun_print
@@ -67,7 +77,8 @@ int main(void)
 
   /* user input */
   printf("\nSay something: ");
-  cfun_print(substandard_reader(stdin), standard_output);
+  object tmp = substandard_reader(stdin);
+  cfun_print(tmp, standard_output);
 
   printf("\n");
   return 0;

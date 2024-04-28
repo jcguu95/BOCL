@@ -42,10 +42,10 @@ cfun_make_string(object size, object initial_element)
     set_class_of(result, class_string);
     set_rack_of(result, (rack) r);
     for(int i = 0; i < c_size; i++)
-    {
-      object index = cfun_integer_to_integer(i);
-      cfun_setf_char(initial_element, result, index);
-    }
+      {
+        object index = cfun_integer_to_integer(i);
+        cfun_setf_char(initial_element, result, index);
+      }
     r -> dimensions = cfun_cons(size, symbol_nil);
     r -> fill_pointer = size;
     return result;
@@ -175,10 +175,14 @@ cfun_string_equal_sign(object string1, object string2)
   object length2 = cfun_car(r2 -> dimensions);
   signed long int c_length1 = cfun_integer_to_c_integer(length1);
   signed long int c_length2 = cfun_integer_to_c_integer(length2);
-  if(c_length1 != c_length2)
+  if (c_length1 != c_length2) {
     return symbol_nil;
-  for(int i = 0; i < c_length1; i++)
-    if(r1 -> characters[i] != r2 -> characters[i])
-      return symbol_nil;
+  } else {
+    for (int i = 0; i < c_length1; i++) {
+      if (r1 -> characters[i] != r2 -> characters[i]) {
+        return symbol_nil;
+      }
+    }
+  }
   return symbol_t;
 }
