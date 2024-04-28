@@ -12,6 +12,8 @@
 #include "control.h"
 #include "function.h"
 
+#include "substandard-reader.h"
+
 int main(void)
 {
   ensure_string_initialized();
@@ -27,6 +29,9 @@ int main(void)
   object z = c_function_binary_add_integer(x, y);
   printf("The sum is %ld\n", c_function_integer_to_c_integer(z));
   c_function_print(c_function_cons(symbol_if, c_function_cons(symbol_block, symbol_nil)), standard_output);
+
+  c_function_print(substandard_reader(stdin), standard_output);
+
   printf("\n");
   return 0;
 }

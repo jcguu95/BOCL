@@ -12,7 +12,7 @@ next_interesting_character(FILE *stream)
 {
   int c;
   for(c = getc(stream);
-      c == 9 || c == 10 || c == ' ';
+      c == 9 || c == 10 || c == ' '; // 9 and 10 are tab and newline
       c = getc(stream))
     ;
   return c;
@@ -69,6 +69,7 @@ char constituent[128] =
 object
 substandard_reader(FILE *stream)
 {
+  printf("\nDEBUG: Calling substandard_reader\n");
   int c = next_interesting_character(stream);
   if(c == ';')
     {

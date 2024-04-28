@@ -5,10 +5,14 @@
 #include "cons.h"
 #include "integer.h"
 #include "print.h"
+/* TODO remove the following after debugging. */
+#include <stdio.h>
 
 void
 c_function_print_symbol(object symbol, object stream)
 {
+  /* TODO remove the following after debugging. */
+  /* printf("\nDEBUG: Calling print_symbol\n"); */
   object name = c_function_symbol_name(symbol);
   object length = c_function_string_total_length(name);
   signed long int c_length = c_function_integer_to_c_integer(length);
