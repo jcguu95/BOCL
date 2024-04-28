@@ -41,24 +41,24 @@ ensure_stream_initialized(void)
 }
 
 object
-c_function_streamp(object maybe_stream)
+cfun_streamp(object maybe_stream)
 {
   return class_of(maybe_stream) == class_stream ? symbol_t : symbol_nil;
 }
 
 object
-c_function_stream_read_char(object stream)
+cfun_stream_read_char(object stream)
 {
   FILE *c_stream = ((stream_rack) rack_of(stream)) -> c_stream;
   char c_char = getc(c_stream);
-  return c_function_char_to_character(c_char);
+  return cfun_char_to_character(c_char);
 }
 
 object
-c_function_stream_write_char(object stream, object character)
+cfun_stream_write_char(object stream, object character)
 {
   FILE *c_stream = ((stream_rack) rack_of(stream)) -> c_stream;
-  char c_char = c_function_character_to_c_char(character);
+  char c_char = cfun_character_to_c_char(character);
   putc(c_char, c_stream);
   return character;
 }

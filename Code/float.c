@@ -15,7 +15,7 @@ struct float_rack
 static int float_rack_size = sizeof(struct float_rack);
 
 object
-c_function_float_to_float(double dfloat)
+cfun_float_to_float(double dfloat)
 {
   object obj = (object) malloc(header_size);
   float_rack r = (float_rack) malloc(float_rack_size);
@@ -26,12 +26,12 @@ c_function_float_to_float(double dfloat)
 }
 
 object
-c_function_binary_add_float(object augend, object addend)
+cfun_binary_add_float(object augend, object addend)
 {
   object obj = (object) malloc(header_size);
   float_rack r = (float_rack) malloc(float_rack_size);
-  assert(c_function_floatp(augend) == symbol_t);
-  assert(c_function_floatp(addend) == symbol_t);
+  assert(cfun_floatp(augend) == symbol_t);
+  assert(cfun_floatp(addend) == symbol_t);
   set_class_of(obj, class_float);
   set_rack_of(obj, (rack) r);
   r -> dfloat = 
@@ -41,12 +41,12 @@ c_function_binary_add_float(object augend, object addend)
 }
 
 object
-c_function_binary_subtract_float(object minuend, object subtrahend)
+cfun_binary_subtract_float(object minuend, object subtrahend)
 {
   object obj = (object) malloc(header_size);
   float_rack r = (float_rack) malloc(float_rack_size);
-  assert(c_function_floatp(minuend) == symbol_t);
-  assert(c_function_floatp(subtrahend) == symbol_t);
+  assert(cfun_floatp(minuend) == symbol_t);
+  assert(cfun_floatp(subtrahend) == symbol_t);
   set_class_of(obj, class_float);
   set_rack_of(obj, (rack) r);
   r -> dfloat = 
@@ -56,12 +56,12 @@ c_function_binary_subtract_float(object minuend, object subtrahend)
 }
 
 object
-c_function_binary_multiply_float(object multiplicand, object multiplier)
+cfun_binary_multiply_float(object multiplicand, object multiplier)
 {
   object obj = (object) malloc(header_size);
   float_rack r = (float_rack) malloc(float_rack_size);
-  assert(c_function_floatp(multiplicand) == symbol_t);
-  assert(c_function_floatp(multiplier) == symbol_t);
+  assert(cfun_floatp(multiplicand) == symbol_t);
+  assert(cfun_floatp(multiplier) == symbol_t);
   set_class_of(obj, class_float);
   set_rack_of(obj, (rack) r);
   r -> dfloat = 
@@ -71,12 +71,12 @@ c_function_binary_multiply_float(object multiplicand, object multiplier)
 }
 
 object
-c_function_binary_divide_float(object dividend, object divisor)
+cfun_binary_divide_float(object dividend, object divisor)
 {
   object obj = (object) malloc(header_size);
   float_rack r = (float_rack) malloc(float_rack_size);
-  assert(c_function_floatp(dividend) == symbol_t);
-  assert(c_function_floatp(divisor) == symbol_t);
+  assert(cfun_floatp(dividend) == symbol_t);
+  assert(cfun_floatp(divisor) == symbol_t);
   set_class_of(obj, class_float);
   set_rack_of(obj, (rack) r);
   r -> dfloat = 
@@ -86,11 +86,11 @@ c_function_binary_divide_float(object dividend, object divisor)
 }
 
 object
-c_function_negate_float(object obj)
+cfun_negate_float(object obj)
 {
   object result = (object) malloc(header_size);
   float_rack r = (float_rack) malloc(float_rack_size);
-  assert(c_function_floatp(obj) == symbol_t);
+  assert(cfun_floatp(obj) == symbol_t);
   set_class_of(result, class_float);
   set_rack_of(result, (rack) r);
   r -> dfloat = - ((float_rack) rack_of(obj)) -> dfloat;
@@ -98,11 +98,11 @@ c_function_negate_float(object obj)
 }
 
 object
-c_function_sin_float(object obj)
+cfun_sin_float(object obj)
 {
   object result = (object) malloc(header_size);
   float_rack r = (float_rack) malloc(float_rack_size);
-  assert(c_function_floatp(obj) == symbol_t);
+  assert(cfun_floatp(obj) == symbol_t);
   set_class_of(result, class_float);
   set_rack_of(result, (rack) r);
   r -> dfloat = sin(((float_rack) rack_of(obj)) -> dfloat);
@@ -110,11 +110,11 @@ c_function_sin_float(object obj)
 }
 
 object
-c_function_cos_float(object obj)
+cfun_cos_float(object obj)
 {
   object result = (object) malloc(header_size);
   float_rack r = (float_rack) malloc(float_rack_size);
-  assert(c_function_floatp(obj) == symbol_t);
+  assert(cfun_floatp(obj) == symbol_t);
   set_class_of(result, class_float);
   set_rack_of(result, (rack) r);
   r -> dfloat = cos(((float_rack) rack_of(obj)) -> dfloat);
@@ -122,11 +122,11 @@ c_function_cos_float(object obj)
 }
 
 object
-c_function_tan_float(object obj)
+cfun_tan_float(object obj)
 {
   object result = (object) malloc(header_size);
   float_rack r = (float_rack) malloc(float_rack_size);
-  assert(c_function_floatp(obj) == symbol_t);
+  assert(cfun_floatp(obj) == symbol_t);
   set_class_of(result, class_float);
   set_rack_of(result, (rack) r);
   r -> dfloat = tan(((float_rack) rack_of(obj)) -> dfloat);
@@ -134,11 +134,11 @@ c_function_tan_float(object obj)
 }
 
 object
-c_function_asin_float(object obj)
+cfun_asin_float(object obj)
 {
   object result = (object) malloc(header_size);
   float_rack r = (float_rack) malloc(float_rack_size);
-  assert(c_function_floatp(obj) == symbol_t);
+  assert(cfun_floatp(obj) == symbol_t);
   set_class_of(result, class_float);
   set_rack_of(result, (rack) r);
   r -> dfloat = asin(((float_rack) rack_of(obj)) -> dfloat);
@@ -146,11 +146,11 @@ c_function_asin_float(object obj)
 }
 
 object
-c_function_acos_float(object obj)
+cfun_acos_float(object obj)
 {
   object result = (object) malloc(header_size);
   float_rack r = (float_rack) malloc(float_rack_size);
-  assert(c_function_floatp(obj) == symbol_t);
+  assert(cfun_floatp(obj) == symbol_t);
   set_class_of(result, class_float);
   set_rack_of(result, (rack) r);
   r -> dfloat = acos(((float_rack) rack_of(obj)) -> dfloat);
@@ -158,11 +158,11 @@ c_function_acos_float(object obj)
 }
 
 object
-c_function_atan_float(object obj)
+cfun_atan_float(object obj)
 {
   object result = (object) malloc(header_size);
   float_rack r = (float_rack) malloc(float_rack_size);
-  assert(c_function_floatp(obj) == symbol_t);
+  assert(cfun_floatp(obj) == symbol_t);
   set_class_of(result, class_float);
   set_rack_of(result, (rack) r);
   r -> dfloat = atan(((float_rack) rack_of(obj)) -> dfloat);
@@ -179,7 +179,7 @@ ensure_float_initialized(void)
 }
 
 object
-c_function_floatp(object maybe_float)
+cfun_floatp(object maybe_float)
 {
   return class_of(maybe_float) == class_float ? symbol_t : symbol_nil;
 }

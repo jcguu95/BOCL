@@ -27,7 +27,7 @@ substandard_list_reader(FILE *stream)
   {
     ungetc(c, stream);
     object element = substandard_reader(stream);
-    return c_function_cons(element, substandard_list_reader(stream));
+    return cfun_cons(element, substandard_list_reader(stream));
   }
 }
 
@@ -95,17 +95,17 @@ substandard_reader(FILE *stream)
       if(all_digits_p(buffer + 1) && (buffer[0] == '-' || is_digit(buffer[0])))
         {
           if(buffer[0] == '-')
-            return c_function_integer_to_integer(-parse_positive_integer(buffer + 1));
+            return cfun_integer_to_integer(-parse_positive_integer(buffer + 1));
           else
-            return c_function_integer_to_integer(parse_positive_integer(buffer));
+            return cfun_integer_to_integer(parse_positive_integer(buffer));
         }
       else
         {
           for(int i = 0; buffer[i] != 0; i++)
             if(buffer[i] >= 'a' && buffer[i] <= 'z')
               buffer[i] -= 32;
-          object string = c_function_string_to_string(buffer);
-          return c_function_intern(string, current_package);
+          object string = cfun_string_to_string(buffer);
+          return cfun_intern(string, current_package);
         }
    }
 }

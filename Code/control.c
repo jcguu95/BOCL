@@ -36,13 +36,13 @@ call(object function, object arguments)
       memcpy(&(r -> buffer), &buffer, sizeof(jmp_buf));
       r -> name = symbol_nil;
       r -> arguments = arguments;
-      control_stack = c_function_cons(frame, control_stack);
+      control_stack = cfun_cons(frame, control_stack);
       (*e)(static_environment, arguments);
       assert(0);
     }
   else
     {
-      control_stack = c_function_cdr(control_stack);
+      control_stack = cfun_cdr(control_stack);
       return return_values;
     }
 }
@@ -56,9 +56,9 @@ named_call(object function_name, object arguments)
 void
 ret(object values)
 {
-  object frame = c_function_car(control_stack);
+  object frame = cfun_car(control_stack);
   stack_frame_rack r = (stack_frame_rack) rack_of(frame);
-  control_stack = c_function_cdr(control_stack);
+  control_stack = cfun_cdr(control_stack);
   return_values = values;
   longjmp(r -> buffer, 1);
 }
@@ -84,9 +84,9 @@ check_argument_count(__attribute__((unused)) object arguments,
   /*
   if(count < min)
     named_call(symbol_error,
-               c_function_cons(data_and_control_flow_symbol_too_few_arguments, symbol_nil));
+               cfun_cons(data_and_control_flow_symbol_too_few_arguments, symbol_nil));
   else if (count > max)
     named_call(symbol_error,
-               c_function_cons(data_and_control_flow_symbol_too_many_arguments, symbol_nil));
+               cfun_cons(data_and_control_flow_symbol_too_many_arguments, symbol_nil));
   */
 }

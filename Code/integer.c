@@ -13,8 +13,8 @@ void
 ensure_integer_initialized(void)
 {
   if(integer_initialized_p) return;
-  integer_0 = c_function_integer_to_integer(0);
-  integer_1 = c_function_integer_to_integer(1);
+  integer_0 = cfun_integer_to_integer(0);
+  integer_1 = cfun_integer_to_integer(1);
   integer_initialized_p = 1;
 };
 
@@ -29,13 +29,13 @@ struct integer_rack
 static int integer_rack_size = sizeof(struct integer_rack);
 
 object
-c_function_integerp(object maybe_integer)
+cfun_integerp(object maybe_integer)
 {
   return class_of(maybe_integer) == class_integer ? symbol_t : symbol_nil;
 }
 
 object
-c_function_integer_to_integer(signed long int c_integer)
+cfun_integer_to_integer(signed long int c_integer)
 {
   object obj = (object) malloc(header_size);
   integer_rack r = (integer_rack) malloc(integer_rack_size);
@@ -47,20 +47,20 @@ c_function_integer_to_integer(signed long int c_integer)
 }
 
 signed long int
-c_function_integer_to_c_integer(object integer)
+cfun_integer_to_c_integer(object integer)
 {
   /* DOC: Transform an integer object into a C-integer. */
-  assert(c_function_integerp(integer) == symbol_t);
+  assert(cfun_integerp(integer) == symbol_t);
   return mpz_get_si(((integer_rack) rack_of(integer)) -> value);
 }
 
 object
-c_function_binary_add_integer(object augend, object addend)
+cfun_binary_add_integer(object augend, object addend)
 {
   object obj = (object) malloc(header_size);
   integer_rack r = (integer_rack) malloc(integer_rack_size);
-  assert(c_function_integerp(augend) == symbol_t);
-  assert(c_function_integerp(addend) == symbol_t);
+  assert(cfun_integerp(augend) == symbol_t);
+  assert(cfun_integerp(addend) == symbol_t);
   set_class_of(obj, class_integer);
   set_rack_of(obj, (rack) r);
   mpz_init(r -> value);
@@ -71,12 +71,12 @@ c_function_binary_add_integer(object augend, object addend)
 }
 
 object
-c_function_binary_subtract_integer(object minuend, object subtrahend)
+cfun_binary_subtract_integer(object minuend, object subtrahend)
 {
   object obj = (object) malloc(header_size);
   integer_rack r = (integer_rack) malloc(integer_rack_size);
-  assert(c_function_integerp(minuend) == symbol_t);
-  assert(c_function_integerp(subtrahend) == symbol_t);
+  assert(cfun_integerp(minuend) == symbol_t);
+  assert(cfun_integerp(subtrahend) == symbol_t);
   set_class_of(obj, class_integer);
   set_rack_of(obj, (rack) r);
   mpz_init(r -> value);
@@ -87,12 +87,12 @@ c_function_binary_subtract_integer(object minuend, object subtrahend)
 }
 
 object
-c_function_binary_multiply_integer(object multiplicand, object multiplier)
+cfun_binary_multiply_integer(object multiplicand, object multiplier)
 {
   object obj = (object) malloc(header_size);
   integer_rack r = (integer_rack) malloc(integer_rack_size);
-  assert(c_function_integerp(multiplicand) == symbol_t);
-  assert(c_function_integerp(multiplier) == symbol_t);
+  assert(cfun_integerp(multiplicand) == symbol_t);
+  assert(cfun_integerp(multiplier) == symbol_t);
   set_class_of(obj, class_integer);
   set_rack_of(obj, (rack) r);
   mpz_init(r -> value);
@@ -103,12 +103,12 @@ c_function_binary_multiply_integer(object multiplicand, object multiplier)
 }
 
 object
-c_function_binary_divide_floor_quotient_integer(object dividend, object divisor)
+cfun_binary_divide_floor_quotient_integer(object dividend, object divisor)
 {
   object obj = (object) malloc(header_size);
   integer_rack r = (integer_rack) malloc(integer_rack_size);
-  assert(c_function_integerp(dividend) == symbol_t);
-  assert(c_function_integerp(divisor) == symbol_t);
+  assert(cfun_integerp(dividend) == symbol_t);
+  assert(cfun_integerp(divisor) == symbol_t);
   set_class_of(obj, class_integer);
   set_rack_of(obj, (rack) r);
   mpz_init(r -> value);
@@ -119,12 +119,12 @@ c_function_binary_divide_floor_quotient_integer(object dividend, object divisor)
 }
 
 object
-c_function_binary_divide_floor_remainder_integer(object dividend, object divisor)
+cfun_binary_divide_floor_remainder_integer(object dividend, object divisor)
 {
   object obj = (object) malloc(header_size);
   integer_rack r = (integer_rack) malloc(integer_rack_size);
-  assert(c_function_integerp(dividend) == symbol_t);
-  assert(c_function_integerp(divisor) == symbol_t);
+  assert(cfun_integerp(dividend) == symbol_t);
+  assert(cfun_integerp(divisor) == symbol_t);
   set_class_of(obj, class_integer);
   set_rack_of(obj, (rack) r);
   mpz_init(r -> value);
@@ -135,11 +135,11 @@ c_function_binary_divide_floor_remainder_integer(object dividend, object divisor
 }
 
 object
-c_function_negate_integer(object integer)
+cfun_negate_integer(object integer)
 {
   object obj = (object) malloc(header_size);
   integer_rack r = (integer_rack) malloc(integer_rack_size);
-  assert(c_function_integerp(integer) == symbol_t);
+  assert(cfun_integerp(integer) == symbol_t);
   set_class_of(obj, class_integer);
   set_rack_of(obj, (rack) r);
   mpz_init(r -> value);
@@ -148,22 +148,22 @@ c_function_negate_integer(object integer)
 }
 
 object
-c_function_one_plus_integer(object integer)
+cfun_one_plus_integer(object integer)
 {
-  return c_function_binary_add_integer(integer, integer_1);
+  return cfun_binary_add_integer(integer, integer_1);
 }
 
 object
-c_function_one_minus_integer(object integer)
+cfun_one_minus_integer(object integer)
 {
-  return c_function_binary_subtract_integer(integer, integer_1);
+  return cfun_binary_subtract_integer(integer, integer_1);
 }
 
 object
-c_function_binary_less_integer(object x, object y)
+cfun_binary_less_integer(object x, object y)
 {
-  assert(c_function_integerp(x) == symbol_t);
-  assert(c_function_integerp(y) == symbol_t);
+  assert(cfun_integerp(x) == symbol_t);
+  assert(cfun_integerp(y) == symbol_t);
   {
     return mpz_cmp(((integer_rack) rack_of(x)) -> value,
                    ((integer_rack) rack_of(y)) -> value)
@@ -172,10 +172,10 @@ c_function_binary_less_integer(object x, object y)
 }
 
 object
-c_function_binary_equal_integer(object x, object y)
+cfun_binary_equal_integer(object x, object y)
 {
-  assert(c_function_integerp(x) == symbol_t);
-  assert(c_function_integerp(y) == symbol_t);
+  assert(cfun_integerp(x) == symbol_t);
+  assert(cfun_integerp(y) == symbol_t);
   {
     return mpz_cmp(((integer_rack) rack_of(x)) -> value,
                    ((integer_rack) rack_of(y)) -> value)
@@ -184,10 +184,10 @@ c_function_binary_equal_integer(object x, object y)
 }
 
 object
-c_function_binary_not_greater(object x, object y)
+cfun_binary_not_greater(object x, object y)
 {
-  assert(c_function_integerp(x) == symbol_t);
-  assert(c_function_integerp(y) == symbol_t);
+  assert(cfun_integerp(x) == symbol_t);
+  assert(cfun_integerp(y) == symbol_t);
   {
     return mpz_cmp(((integer_rack) rack_of(x)) -> value,
                    ((integer_rack) rack_of(y)) -> value)
@@ -196,22 +196,22 @@ c_function_binary_not_greater(object x, object y)
 }  
 
 object
-c_function_zerop_integer(object integer)
+cfun_zerop_integer(object integer)
 {
-  assert(c_function_integerp(integer) == symbol_t);
-  return c_function_binary_equal_integer(integer, integer_0);
+  assert(cfun_integerp(integer) == symbol_t);
+  return cfun_binary_equal_integer(integer, integer_0);
 }
 
 object
-c_function_plusp_integer(object integer)
+cfun_plusp_integer(object integer)
 {
-  assert(c_function_integerp(integer) == symbol_t);
-  return c_function_binary_less_integer(integer_0, integer);
+  assert(cfun_integerp(integer) == symbol_t);
+  return cfun_binary_less_integer(integer_0, integer);
 }
 
 object
-c_function_minusp_integer(object integer)
+cfun_minusp_integer(object integer)
 {
-  assert(c_function_integerp(integer) == symbol_t);
-  return c_function_binary_less_integer(integer, integer_0);
+  assert(cfun_integerp(integer) == symbol_t);
+  return cfun_binary_less_integer(integer, integer_0);
 }

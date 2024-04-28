@@ -1024,13 +1024,13 @@ struct symbol_rack
 static int symbol_rack_size = sizeof(struct symbol_rack);
 
 object
-c_function_symbol_name(object symbol)
+cfun_symbol_name(object symbol)
 {
   return ((symbol_rack) rack_of(symbol)) -> name;
 }
 
 object
-c_function_symbol_package(object symbol)
+cfun_symbol_package(object symbol)
 {
   return ((symbol_rack) rack_of(symbol)) -> package;
 }
@@ -1048,13 +1048,13 @@ set_symbol_slot_function(object symbol, object function)
 }
 
 object
-c_function_symbol_slot_value(object symbol)
+cfun_symbol_slot_value(object symbol)
 {
   return ((symbol_rack) rack_of(symbol)) -> value;
 }
 
 void
-c_function_set_symbol_slot_value(object symbol, object value)
+cfun_set_symbol_slot_value(object symbol, object value)
 {
   ((symbol_rack) rack_of(symbol)) -> value = value;
 }
@@ -1070,7 +1070,7 @@ make_symbol()
 }
 
 object
-c_function_make_symbol(object name, object package)
+cfun_make_symbol(object name, object package)
 {
   object result = make_symbol();
   symbol_rack r = (symbol_rack) rack_of(result);
@@ -1080,10 +1080,10 @@ c_function_make_symbol(object name, object package)
 }
 
 object
-c_function_symbol_to_symbol(char *s, object package)
+cfun_symbol_to_symbol(char *s, object package)
 {
   object result = make_symbol();
-  object name = c_function_string_to_string(s);
+  object name = cfun_string_to_string(s);
   symbol_rack r = (symbol_rack) rack_of(result);
   r -> name = name;
   r -> package = package;
@@ -1091,7 +1091,7 @@ c_function_symbol_to_symbol(char *s, object package)
 }
 
 object
-c_function_symbolp(object maybe_symbol)
+cfun_symbolp(object maybe_symbol)
 {
   return class_of(maybe_symbol) == class_symbol ? symbol_t : symbol_nil;
 }
@@ -1099,7 +1099,7 @@ c_function_symbolp(object maybe_symbol)
 object
 make_common_lisp_symbol(char *c_name)
 {
-  object result = c_function_symbol_to_symbol(c_name, package_common_lisp);
+  object result = cfun_symbol_to_symbol(c_name, package_common_lisp);
   package_add_external_symbol(package_common_lisp, result);
   return result;
 }
@@ -1107,7 +1107,7 @@ make_common_lisp_symbol(char *c_name)
 object
 make_keyword_symbol(char *c_name)
 {
-  object result = c_function_symbol_to_symbol(c_name, package_keyword);
+  object result = cfun_symbol_to_symbol(c_name, package_keyword);
   package_add_external_symbol(package_common_lisp, result);
   return result;
 }

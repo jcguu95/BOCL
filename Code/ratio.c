@@ -24,18 +24,18 @@ struct ratio_rack
 static int ratio_rack_size = sizeof(struct ratio_rack);
 
 object
-c_function_ratiop(object maybe_ratio)
+cfun_ratiop(object maybe_ratio)
 {
   return class_of(maybe_ratio) == class_ratio ? symbol_t : symbol_nil;
 }
 
 object
-c_function_binary_add_ratio(object augend, object addend)
+cfun_binary_add_ratio(object augend, object addend)
 {
   object obj = (object) malloc(header_size);
   ratio_rack r = (ratio_rack) malloc(ratio_rack_size);
-  assert(c_function_ratiop(augend) == symbol_t);
-  assert(c_function_ratiop(addend) == symbol_t);
+  assert(cfun_ratiop(augend) == symbol_t);
+  assert(cfun_ratiop(addend) == symbol_t);
   set_class_of(obj, class_ratio);
   set_rack_of(obj, (rack) r);
   mpq_init(r -> value);
@@ -46,12 +46,12 @@ c_function_binary_add_ratio(object augend, object addend)
 }
 
 object
-c_function_binary_subtract_ratio(object minuend, object subtrahend)
+cfun_binary_subtract_ratio(object minuend, object subtrahend)
 {
   object obj = (object) malloc(header_size);
   ratio_rack r = (ratio_rack) malloc(ratio_rack_size);
-  assert(c_function_ratiop(minuend) == symbol_t);
-  assert(c_function_ratiop(subtrahend) == symbol_t);
+  assert(cfun_ratiop(minuend) == symbol_t);
+  assert(cfun_ratiop(subtrahend) == symbol_t);
   set_class_of(obj, class_ratio);
   set_rack_of(obj, (rack) r);
   mpq_init(r -> value);
@@ -62,12 +62,12 @@ c_function_binary_subtract_ratio(object minuend, object subtrahend)
 }
 
 object
-c_function_binary_multiply_ratio(object multiplicand, object multiplier)
+cfun_binary_multiply_ratio(object multiplicand, object multiplier)
 {
   object obj = (object) malloc(header_size);
   ratio_rack r = (ratio_rack) malloc(ratio_rack_size);
-  assert(c_function_ratiop(multiplicand) == symbol_t);
-  assert(c_function_ratiop(multiplier) == symbol_t);
+  assert(cfun_ratiop(multiplicand) == symbol_t);
+  assert(cfun_ratiop(multiplier) == symbol_t);
   set_class_of(obj, class_ratio);
   set_rack_of(obj, (rack) r);
   mpq_init(r -> value);
@@ -78,12 +78,12 @@ c_function_binary_multiply_ratio(object multiplicand, object multiplier)
 }
 
 object
-c_function_binary_divide_ratio(object dividend, object divisor)
+cfun_binary_divide_ratio(object dividend, object divisor)
 {
   object obj = (object) malloc(header_size);
   ratio_rack r = (ratio_rack) malloc(ratio_rack_size);
-  assert(c_function_ratiop(dividend) == symbol_t);
-  assert(c_function_ratiop(divisor) == symbol_t);
+  assert(cfun_ratiop(dividend) == symbol_t);
+  assert(cfun_ratiop(divisor) == symbol_t);
   set_class_of(obj, class_ratio);
   set_rack_of(obj, (rack) r);
   mpq_init(r -> value);
@@ -94,11 +94,11 @@ c_function_binary_divide_ratio(object dividend, object divisor)
 }
 
 object
-c_function_negate_ratio(object ratio)
+cfun_negate_ratio(object ratio)
 {
   object obj = (object) malloc(header_size);
   ratio_rack r = (ratio_rack) malloc(ratio_rack_size);
-  assert(c_function_ratiop(ratio) == symbol_t);
+  assert(cfun_ratiop(ratio) == symbol_t);
   set_class_of(obj, class_ratio);
   set_rack_of(obj, (rack) r);
   mpq_init(r -> value);

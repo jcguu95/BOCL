@@ -25,7 +25,7 @@ struct cons_rack
 static int cons_rack_size = sizeof(struct cons_rack);
 
 object
-c_function_cons(object car, object cdr)
+cfun_cons(object car, object cdr)
 {
   object result = make_object();
   cons_rack r = (cons_rack) malloc(cons_rack_size);
@@ -37,68 +37,68 @@ c_function_cons(object car, object cdr)
 }
 
 object
-c_function_car(object cons)
+cfun_car(object cons)
 {
-  assert(c_function_consp(cons) == symbol_t);
+  assert(cfun_consp(cons) == symbol_t);
   return ((cons_rack) rack_of(cons)) -> car;
 }
 
 object
-c_function_cdr(object cons)
+cfun_cdr(object cons)
 {
-  assert(c_function_consp(cons) == symbol_t);
+  assert(cfun_consp(cons) == symbol_t);
   return ((cons_rack) rack_of(cons)) -> cdr;
 }
 
 object
 list1(object element)
 {
-  return c_function_cons(element, symbol_nil);
+  return cfun_cons(element, symbol_nil);
 }
 
 object
 list2(object element1, object element2)
 {
-  return c_function_cons(element1, list1(element2));
+  return cfun_cons(element1, list1(element2));
 }
 
 object
 list3(object element1, object element2, object element3)
 {
-  return c_function_cons(element1, list2(element2, element3));
+  return cfun_cons(element1, list2(element2, element3));
 }
 
 object
 list4(object element1, object element2, object element3, object element4)
 {
-  return c_function_cons(element1, list3(element2, element3, element4));
+  return cfun_cons(element1, list3(element2, element3, element4));
 }
 
 object
 list5(object element1, object element2, object element3, object element4, object element5)
 {
-  return c_function_cons(element1, list4(element2, element3, element4, element5));
+  return cfun_cons(element1, list4(element2, element3, element4, element5));
 }
 
 object
 l_function_cons(__attribute__((unused)) object static_environment, object arguments)
 {
   check_argument_count(arguments, 2, 2);
-  return(c_function_cons(c_function_car(arguments), c_function_car(c_function_cdr(arguments))));
+  return(cfun_cons(cfun_car(arguments), cfun_car(cfun_cdr(arguments))));
 }
 
 object
 l_function_car(__attribute__((unused)) object static_environment, object arguments)
 {
   check_argument_count(arguments, 1, 1);
-  object argument = c_function_car(arguments);
+  object argument = cfun_car(arguments);
   if(argument == symbol_nil)
     {
       return list1(symbol_nil);
     }
-  else if(c_function_consp(argument) == symbol_t)
+  else if(cfun_consp(argument) == symbol_t)
     {
-      return list1(c_function_car(argument));
+      return list1(cfun_car(argument));
     }
   else
     return named_call(symbol_error,
@@ -113,14 +113,14 @@ object
 l_function_cdr(__attribute__((unused)) object static_environment, object arguments)
 {
   check_argument_count(arguments, 1, 1);
-  object argument = c_function_car(arguments);
+  object argument = cfun_car(arguments);
   if(argument == symbol_nil)
     {
       return list1(symbol_nil);
     }
-  else if(c_function_consp(argument) == symbol_t)
+  else if(cfun_consp(argument) == symbol_t)
     {
-      return list1(c_function_cdr(argument));
+      return list1(cfun_cdr(argument));
     }
   else
     return named_call(symbol_error,
@@ -132,23 +132,23 @@ l_function_cdr(__attribute__((unused)) object static_environment, object argumen
 }
 
 object
-c_function_consp(object maybe_cons)
+cfun_consp(object maybe_cons)
 {
   return class_of(maybe_cons) == class_cons ? symbol_t : symbol_nil;
 }
 
 object
-c_function_rplaca(object cons, object obj)
+cfun_rplaca(object cons, object obj)
 {
-  assert(c_function_consp(cons) == symbol_t);
+  assert(cfun_consp(cons) == symbol_t);
   ((cons_rack) rack_of(cons)) -> car = obj;
   return cons;
 }
 
 object
-c_function_rplacd(object cons, object obj)
+cfun_rplacd(object cons, object obj)
 {
-  assert(c_function_consp(cons) == symbol_t);
+  assert(cfun_consp(cons) == symbol_t);
   ((cons_rack) rack_of(cons)) -> cdr = obj;
   return cons;
 }
