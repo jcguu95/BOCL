@@ -6,7 +6,7 @@
 
 2. [X] Implement a reader only for symbols, lists, and strings.
 
-3. Implement equalities.
+3. [X] Implement equalities.
 
    This will be helpful for debugging later.
 
