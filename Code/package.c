@@ -88,6 +88,13 @@ cfun_packagep(object maybe_package)
   return class_of(maybe_package) == class_package ? symbol_t : symbol_nil;
 }
 
+object
+cfun_package_name(object maybe_package)
+{
+  assert(cfun_packagep(maybe_package) == symbol_t);
+  return ((package_rack) rack_of(maybe_package)) -> name;
+}
+
 extern void
 package_add_external_symbol(object package, object symbol)
 {

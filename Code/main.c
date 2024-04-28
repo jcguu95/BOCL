@@ -36,6 +36,10 @@ int main(void)
   cfun_print(cfun_string_to_string("LISP"), standard_output);
   printf("\n");
 
+  /* Print a lisp package. */
+  cfun_print(package_common_lisp, standard_output);
+  printf("\n");
+
   /* Print a short cons. */
   cfun_print
     (cfun_cons
@@ -60,7 +64,7 @@ int main(void)
   cfun_print(cfun_list(obj_arr, size), standard_output);
 
   /* user input */
-  printf("\nPlease say something:\n");
+  printf("\nSay something: ");
   cfun_print(substandard_reader(stdin), standard_output);
 
   printf("\n");

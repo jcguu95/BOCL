@@ -2,6 +2,7 @@
 #include "string.h"
 #include "character.h"
 #include "symbol.h"
+#include "package.h"
 #include "cons.h"
 #include "integer.h"
 #include "print.h"
@@ -11,8 +12,6 @@
 void
 cfun_print_symbol(object symbol, object stream)
 {
-  /* TODO remove the following after debugging. */
-  /* printf("\nDEBUG: Calling print_symbol\n"); */
   object name = cfun_symbol_name(symbol);
   object length = cfun_string_total_length(name);
   signed long int c_length = cfun_integer_to_c_integer(length);
@@ -79,6 +78,17 @@ cfun_print_integer(object integer, object stream)
 }
 
 void
+cfun_print_package(object package, object stream)
+{
+  char str[] = "<PACKAGE ";
+  for (int i = 0; str[i] != '\0'; i++) {
+    cfun_stream_write_char(stream, cfun_char_to_character(str[i]));
+  }
+  cfun_print(cfun_package_name(package), stream);
+  cfun_stream_write_char(stream, cfun_char_to_character('>'));
+}
+
+void
 cfun_print_unknown(object unknown, object stream)
 {
   (void)unknown;
@@ -91,6 +101,8 @@ cfun_print(object obj, object stream)
 {
   if(cfun_symbolp(obj) == symbol_t)
     cfun_print_symbol(obj, stream);
+  else if(cfun_packagep(obj) == symbol_t)
+    cfun_print_package(obj, stream);
   else if(cfun_stringp(obj) == symbol_t)
     cfun_print_string(obj, stream);
   else if(cfun_consp(obj) == symbol_t)
