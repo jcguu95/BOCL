@@ -62,3 +62,10 @@ cfun_stream_write_char(object stream, object character)
   putc(c_char, c_stream);
   return character;
 }
+
+FILE *str_to_stream(char *str) {
+  /* DOC: Turn a C string into a FILE stream. */
+    FILE *stream;
+    stream = fmemopen(str, strlen(str), "r");
+    return stream;
+}

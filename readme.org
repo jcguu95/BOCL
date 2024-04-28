@@ -6,4 +6,8 @@
 
 2. [X] Implement a reader only for symbols, lists, and strings.
 
-3. Implement an evaluator and 25 special ops.
+3. Implement equalities.
+
+   This will be helpful for debugging later.
+
+4. Implement an evaluator and 25 special ops.

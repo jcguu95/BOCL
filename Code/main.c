@@ -15,6 +15,8 @@
 
 #include "substandard-reader.h"
 
+#include <string.h>
+
 int main(void)
 {
   ensure_string_initialized();
@@ -77,14 +79,13 @@ int main(void)
   size_t size = sizeof(obj_arr) / sizeof(obj_arr[0]);
   cfun_print(cfun_list(obj_arr, size), standard_output);
 
-  /* user input */
-  printf("\nSay something: ");
-  object tmp = substandard_reader(stdin);
-  cfun_print(tmp, standard_output);
-  printf("\n");
-
-  /* TODO: Add code to test substandard_reader automatically. */
-  /*   e.g. it can now read "\\abc\"123\"" correctly. */
+  /* Test for substandard_reader */
+  cfun_print(substandard_reader(str_to_stream("(1 2 4)")), standard_output);
+  /* /\* user input *\/ */
+  /* printf("\nSay something: "); */
+  /* object tmp = substandard_reader(stdin); */
+  /* cfun_print(tmp, standard_output); */
+  /* printf("\n"); */
 
   return 0;
 }
