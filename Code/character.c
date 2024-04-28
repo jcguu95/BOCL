@@ -43,6 +43,7 @@ ensure_character_initialized(void)
 object
 c_function_char_to_character(char c)
 {
+  /* DOC: Return a character object transformed from a C-character c. */
   ensure_character_initialized();
   return characters[(int) c];
 }

@@ -49,6 +49,7 @@ c_function_integer_to_integer(signed long int c_integer)
 signed long int
 c_function_integer_to_c_integer(object integer)
 {
+  /* DOC: Transform an integer object into a C-integer. */
   assert(c_function_integerp(integer) == symbol_t);
   return mpz_get_si(((integer_rack) rack_of(integer)) -> value);
 }

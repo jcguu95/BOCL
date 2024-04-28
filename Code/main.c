@@ -28,7 +28,15 @@ int main(void)
   object y = c_function_integer_to_integer(345);
   object z = c_function_binary_add_integer(x, y);
   printf("The sum is %ld\n", c_function_integer_to_c_integer(z));
-  c_function_print(c_function_cons(symbol_if, c_function_cons(symbol_block, symbol_nil)), standard_output);
+  c_function_print
+    (c_function_cons
+     (symbol_if,
+      c_function_cons
+      (symbol_block,
+       c_function_cons
+       (z,
+        symbol_nil))),
+     standard_output);
 
   c_function_print(substandard_reader(stdin), standard_output);
 
