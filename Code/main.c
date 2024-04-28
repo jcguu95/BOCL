@@ -24,24 +24,35 @@ int main(void)
   ensure_function_initialized();
   ensure_control_initialized();
   ensure_package_initialized_2();
+
+  /* some simple calculations */
   object x = cfun_integer_to_integer(19);
   object y = cfun_integer_to_integer(23);
   object z = cfun_binary_add_integer(x, y);
   printf("The answer is %ld.\n", cfun_integer_to_c_integer(z));
+
+  /* Print a lisp string. */
+  char message[] = "Hello, lisp!\n";
+  cfun_print(cfun_string_to_string(message), standard_output);
+
+  /* Print a short cons. */
+  cfun_print
+    (cfun_cons
+     (symbol_nil,
+      symbol_block),
+     standard_output);
+  printf("\n");
+
+  /* Print a long cons. */
   cfun_print
     (cfun_cons
      (symbol_if,
       cfun_cons
       (symbol_block,
-       cfun_cons
-       (symbol_nil,
-        cfun_cons
-        (z,
-         symbol_nil)))),
+       symbol_nil)),
      standard_output);
 
-  /* printing lists */
-  printf("\n");
+  /* Print a list. */
   printf("\n");
   object obj_arr[] = {x, y, symbol_nil, z};
   size_t size = sizeof(obj_arr) / sizeof(obj_arr[0]);

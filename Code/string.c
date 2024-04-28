@@ -91,6 +91,7 @@ cfun_setf_char(object character, object string, object index)
 object
 cfun_string_to_string(char *s)
 {
+  /* DOC: Convert a C string to a lisp string. */
   int length = strlen(s);
   object integer_length = cfun_integer_to_integer(length);
   object obj = (object) malloc(header_size);
