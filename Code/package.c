@@ -13,11 +13,8 @@
 DEFINE_CLASS(class_package);
 
 object package_common_lisp;
-
 object package_keyword;
-
 object package_common_lisp_user;
-
 object current_package;
 
 static int package_initialized_p = 0;
@@ -46,7 +43,11 @@ make_common_lisp_package()
      constructed.*/
   object package = make_object();
   package_rack r = (package_rack) malloc(package_rack_size);
-  symbol_nil = cfun_symbol_to_symbol("NIL", package); /* NOTE Global definition of symbol_nil. */
+
+  /* NOTE Global definition of symbol_nil. */
+  symbol_nil = cfun_symbol_to_symbol("NIL", package);
+  /* FIXME How to write it in a better style? */
+
   set_class_of(package, class_package);
   set_rack_of(package, (rack) r);
   r -> used_packages = symbol_nil;
@@ -253,7 +254,7 @@ ensure_package_initialized_2(void)
   for (int i = 0; i < size; i++) {
     object symbol = symbols[i];
     object name = cfun_symbol_name(symbol);
-    object result = cfun_find_symbol(name, package_common_lisp);
+    object result = cfun_find_symbol_in_package(name, package_common_lisp);
     if (result == 0) {
       package_add_external_symbol(package_common_lisp, symbol);
     } 
@@ -262,7 +263,7 @@ ensure_package_initialized_2(void)
 }
 
 object
-find_symbol_in_list(object string, object list)
+cfun_find_symbol_in_list(object string, object list)
 {
   assert(cfun_stringp(string));
   assert(cfun_listp(list));
@@ -273,20 +274,19 @@ find_symbol_in_list(object string, object list)
       return symbol;
     }
   }
-  /* FIXME: Is 0 of type object? */
   return 0;
 }
 
 object
-cfun_find_symbol(object string, object package)
+cfun_find_symbol_in_package(object string, object package)
 {
   package_rack r = (package_rack) rack_of(package);
   object symbol;
-  symbol = find_symbol_in_list(string, r -> external_symbols);
+  symbol = cfun_find_symbol_in_list(string, r -> external_symbols);
   if (symbol != 0) {
     return symbol;
   }
-  symbol = find_symbol_in_list(string, r -> internal_symbols);
+  symbol = cfun_find_symbol_in_list(string, r -> internal_symbols);
   if (symbol != 0) {
     return symbol;
   }
@@ -295,19 +295,18 @@ cfun_find_symbol(object string, object package)
        restp = cfun_cdr(restp)) {
     object p = cfun_car(restp);
     package_rack r = (package_rack) rack_of(p);
-    symbol = find_symbol_in_list(string, r -> external_symbols);
+    symbol = cfun_find_symbol_in_list(string, r -> external_symbols);
     if (symbol != 0) {
       return symbol;
     }
   }
-  /* FIXME: Is 0 of type object? */
   return 0;
 }
 
 object
 cfun_intern(object string, object package)
 {
-  object symbol = cfun_find_symbol(string, package);
+  object symbol = cfun_find_symbol_in_package(string, package);
   if (symbol != 0) {
     return symbol;
   } else {
