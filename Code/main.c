@@ -194,9 +194,11 @@ int main(void)
   printf("\n");
 
   cfun_assert
-    (cfun_equal
+    (cfun_eq
      (cfun_c_char_to_character('a'),
-      cfun_c_char_to_character(cfun_character_to_c_char(cfun_c_char_to_character('a')))));
+      cfun_c_char_to_character
+      (cfun_character_to_c_char
+       (cfun_c_char_to_character('a')))));
   printf("PASS: Character Conversion Test.");
   printf("\n");
 
