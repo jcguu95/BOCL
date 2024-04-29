@@ -24,6 +24,7 @@ extern void intern(object string, object package);
 extern object class_package;
 
 extern object package_common_lisp;
+extern object package_common_lisp_user;
 
 extern object package_keyword;
 

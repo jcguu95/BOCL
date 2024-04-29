@@ -48,7 +48,6 @@ int main(void)
   printf("\n");
   printf("\n");
 
-  /* Print a lisp package. */
   printf("Info about: ");
   cfun_print(package_common_lisp, standard_output);
   printf("\n");
@@ -57,6 +56,17 @@ int main(void)
   printf("\n");
   printf("> Amount of internal symbols: ");
   cfun_print(cfun_length(cfun_package_internal_symbols(package_common_lisp)), standard_output);
+  printf("\n");
+  printf("\n");
+
+  printf("Info about: ");
+  cfun_print(package_common_lisp_user, standard_output);
+  printf("\n");
+  printf("> Amount of external symbols: ");
+  cfun_print(cfun_length(cfun_package_external_symbols(package_common_lisp_user)), standard_output);
+  printf("\n");
+  printf("> Amount of internal symbols: ");
+  cfun_print(cfun_length(cfun_package_internal_symbols(package_common_lisp_user)), standard_output);
   printf("\n");
   printf("\n");
 
