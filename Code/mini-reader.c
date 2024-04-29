@@ -123,9 +123,9 @@ mini_reader(FILE *stream)
     buffer[next] = 0;
     if (all_digits_p(buffer + 1) && (buffer[0] == '-' || is_digit(buffer[0]))) {
       if (buffer[0] == '-') {
-        return cfun_integer_to_integer(-parse_positive_integer(buffer + 1));
+        return cfun_c_integer_to_integer(-parse_positive_integer(buffer + 1));
       } else {
-        return cfun_integer_to_integer(parse_positive_integer(buffer));
+        return cfun_c_integer_to_integer(parse_positive_integer(buffer));
       }
     } else {
       for (int i = 0; buffer[i] != 0; i++) {

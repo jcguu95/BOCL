@@ -29,10 +29,10 @@ int main(void)
   ensure_package_initialized_2();
 
   /* some simple calculations */
-  object x = cfun_integer_to_integer(19);
-  object y = cfun_integer_to_integer(23);
+  object x = cfun_c_integer_to_integer(19);
+  object y = cfun_c_integer_to_integer(23);
   object z = cfun_binary_add_integer(x, y);
-  cfun_assert(cfun_binary_equal_integer(z, cfun_integer_to_integer(42)));
+  cfun_assert(cfun_binary_equal_integer(z, cfun_c_integer_to_integer(42)));
   printf("The answer is %ld.", cfun_integer_to_c_integer(z));
   printf("\n");
 

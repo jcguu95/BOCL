@@ -1,6 +1,6 @@
 #include "integer.h"
 #include "symbol.h"
-#include <gmp.h>
+#include <gmp.h> // GNU Multiple Precision Arithmetic Library
 
 DEFINE_CLASS(class_integer);
 
@@ -15,8 +15,8 @@ ensure_integer_initialized(void)
   if (integer_initialized_p) {
     return;
   }
-  integer_0 = cfun_integer_to_integer(0);
-  integer_1 = cfun_integer_to_integer(1);
+  integer_0 = cfun_c_integer_to_integer(0);
+  integer_1 = cfun_c_integer_to_integer(1);
   integer_initialized_p = 1;
 };
 
@@ -37,13 +37,13 @@ cfun_integerp(object obj)
 }
 
 object
-cfun_integer_to_integer(signed long int c_integer)
+cfun_c_integer_to_integer(signed long int c_integer)
 {
   /* DOC: Turn a C integer into a lisp integer. */
   object obj = make_object();
   integer_rack r = (integer_rack) malloc(integer_rack_size);
   set_class_of(obj, class_integer);
-  set_rack_of(obj, &(r->prefix)); /* TODO Find out how this works. */
+  set_rack_of(obj, &(r->prefix));
   mpz_init(r -> value);
   mpz_set_si(r -> value, c_integer);
   return obj;

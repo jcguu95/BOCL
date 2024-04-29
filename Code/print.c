@@ -15,7 +15,7 @@ cfun_print_symbol(object symbol, object stream)
   signed long int c_length = cfun_integer_to_c_integer(length);
   for(int i = 0; i < c_length; i++)
     {
-      object index = cfun_integer_to_integer(i);
+      object index = cfun_c_integer_to_integer(i);
       object character = cfun_char(name, index);
       cfun_stream_write_char(stream, character);
     }
@@ -30,7 +30,7 @@ cfun_print_string(object string, object stream)
   cfun_stream_write_char(stream, double_quote);
   for(int i = 0; i < c_length; i++)
     {
-      object index = cfun_integer_to_integer(i);
+      object index = cfun_c_integer_to_integer(i);
       object character = cfun_char(string, index);
       cfun_stream_write_char(stream, character);
     }

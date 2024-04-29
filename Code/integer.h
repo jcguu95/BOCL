@@ -5,7 +5,7 @@
 
 extern void ensure_integer_initialized(void);
 extern object cfun_integerp(object maybe_integer);
-extern object cfun_integer_to_integer(signed long int c_integer);
+extern object cfun_c_integer_to_integer(signed long int c_integer);
 extern object cfun_binary_add_integer(object augend, object addend);
 extern object cfun_binary_subtract_integer(object minuend, object subtrahend);
 extern object cfun_binary_multiply_integer(object multiplicand, object multiplier);

@@ -43,7 +43,7 @@ cfun_make_string(object size, object initial_element)
     set_rack_of(result, (rack) r);
     for(int i = 0; i < c_size; i++)
       {
-        object index = cfun_integer_to_integer(i);
+        object index = cfun_c_integer_to_integer(i);
         cfun_setf_char(initial_element, result, index);
       }
     r -> dimensions = cfun_cons(size, symbol_nil);
@@ -94,7 +94,7 @@ cfun_string_to_string(char *s)
 {
   /* DOC: Convert a C string to a lisp string. */
   int length = strlen(s);
-  object integer_length = cfun_integer_to_integer(length);
+  object integer_length = cfun_c_integer_to_integer(length);
   object obj = (object) malloc(header_size);
   string_rack r = (string_rack) malloc(string_rack_size + length * sizeof(object));
   set_class_of(obj, class_string);
@@ -151,14 +151,14 @@ cfun_string_push_extend(object character, object string, object extension)
     if(c_length == c_fill_pointer)
       {
         signed long int c_new_length = c_length + c_extension;
-        object new_length = cfun_integer_to_integer(c_new_length);
+        object new_length = cfun_c_integer_to_integer(c_new_length);
         object new_dimensions = cfun_cons(new_length, symbol_nil);
         r = (string_rack) realloc(r, string_rack_size + c_new_length * sizeof(object));
         set_rack_of(string, (rack) r);
         r -> dimensions = new_dimensions;
       }
     signed long int c_new_fill_pointer = c_fill_pointer + 1;
-    object new_fill_pointer = cfun_integer_to_integer(c_new_fill_pointer);
+    object new_fill_pointer = cfun_c_integer_to_integer(c_new_fill_pointer);
     r -> fill_pointer = new_fill_pointer;
     r -> characters[c_fill_pointer] = character;
   }

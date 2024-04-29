@@ -171,11 +171,11 @@ cfun_length(object list)
 {
   assert(cfun_listp(list) == symbol_t);
   if (list == symbol_nil) {
-    return cfun_integer_to_integer(0);
+    return cfun_c_integer_to_integer(0);
   } else {
     return
       cfun_binary_add_integer
-      (cfun_integer_to_integer(1),
+      (cfun_c_integer_to_integer(1),
        cfun_length(cfun_cdr(list)));
   }
 }
