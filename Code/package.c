@@ -34,6 +34,54 @@ struct package_rack
 
 static int package_rack_size = sizeof(struct package_rack);
 
+object
+cfun_package_name(object maybe_package)
+{
+  assert(cfun_packagep(maybe_package) == symbol_t);
+  return ((package_rack) rack_of(maybe_package)) -> name;
+}
+
+object
+cfun_package_nicknames(object maybe_package)
+{
+  assert(cfun_packagep(maybe_package) == symbol_t);
+  return ((package_rack) rack_of(maybe_package)) -> nicknames;
+}
+
+object
+cfun_package_used_packages(object maybe_package)
+{
+  assert(cfun_packagep(maybe_package) == symbol_t);
+  return ((package_rack) rack_of(maybe_package)) -> used_packages;
+}
+
+object
+cfun_package_external_symbols(object package)
+{
+  package_rack r = (package_rack) rack_of(package);
+  return r -> external_symbols;
+}
+
+object
+cfun_package_internal_symbols(object package)
+{
+  package_rack r = (package_rack) rack_of(package);
+  return r -> internal_symbols;
+}
+
+extern void
+package_add_external_symbol(object package, object symbol)
+{
+  package_rack r = (package_rack) rack_of(package);
+  r -> external_symbols = cfun_cons(symbol, r -> external_symbols);
+}
+
+extern void
+package_add_internal_symbol(object package, object symbol)
+{
+  package_rack r = (package_rack) rack_of(package);
+  r -> internal_symbols = cfun_cons(symbol, r -> internal_symbols);
+}
 void
 set_package_name(object package, object string)
 {
@@ -118,48 +166,6 @@ object
 cfun_packagep(object maybe_package)
 {
   return class_of(maybe_package) == class_package ? symbol_t : symbol_nil;
-}
-
-object
-cfun_package_name(object maybe_package)
-{
-  assert(cfun_packagep(maybe_package) == symbol_t);
-  return ((package_rack) rack_of(maybe_package)) -> name;
-}
-
-object
-cfun_package_nicknames(object maybe_package)
-{
-  assert(cfun_packagep(maybe_package) == symbol_t);
-  return ((package_rack) rack_of(maybe_package)) -> nicknames;
-}
-
-object
-cfun_package_external_symbols(object package)
-{
-  package_rack r = (package_rack) rack_of(package);
-  return r -> external_symbols;
-}
-
-object
-cfun_package_internal_symbols(object package)
-{
-  package_rack r = (package_rack) rack_of(package);
-  return r -> internal_symbols;
-}
-
-extern void
-package_add_external_symbol(object package, object symbol)
-{
-  package_rack r = (package_rack) rack_of(package);
-  r -> external_symbols = cfun_cons(symbol, r -> external_symbols);
-}
-
-extern void
-package_add_internal_symbol(object package, object symbol)
-{
-  package_rack r = (package_rack) rack_of(package);
-  r -> internal_symbols = cfun_cons(symbol, r -> internal_symbols);
 }
 
 void
@@ -283,6 +289,7 @@ ensure_package_initialized_2(void)
 
 object
 cfun_find_symbol_in_list(object string, object list)
+  /* TODO: Rewrite this for general #'find for lists. */
 {
   assert(cfun_stringp(string));
   assert(cfun_listp(list));
@@ -299,22 +306,20 @@ cfun_find_symbol_in_list(object string, object list)
 object
 cfun_find_symbol_in_package(object string, object package)
 {
-  package_rack r = (package_rack) rack_of(package);
   object symbol;
-  symbol = cfun_find_symbol_in_list(string, r -> external_symbols);
+  symbol = cfun_find_symbol_in_list(string, cfun_package_external_symbols(package));
   if (symbol != 0) {
     return symbol;
   }
-  symbol = cfun_find_symbol_in_list(string, r -> internal_symbols);
+  symbol = cfun_find_symbol_in_list(string, cfun_package_internal_symbols(package));
   if (symbol != 0) {
     return symbol;
   }
-  for (object restp = r -> used_packages;
+  for (object restp = cfun_package_used_packages(package);
        restp != symbol_nil;
        restp = cfun_cdr(restp)) {
     object p = cfun_car(restp);
-    package_rack r = (package_rack) rack_of(p);
-    symbol = cfun_find_symbol_in_list(string, r -> external_symbols);
+    symbol = cfun_find_symbol_in_list(string, cfun_package_external_symbols(p));
     if (symbol != 0) {
       return symbol;
     }
