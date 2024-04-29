@@ -55,7 +55,7 @@ cfun_make_string(object size, object initial_element)
 object
 cfun_char(object string, object index)
 {
-  /* DOC: Return the index'th character from the lisp string. */
+  /* DOC: Return the index'th lisp character from the lisp string. */
   assert(cfun_stringp(string) == symbol_t);
   assert(cfun_integerp(index) == symbol_t);
   {
@@ -87,6 +87,20 @@ cfun_setf_char(object character, object string, object index)
     }
   }
   return character;
+}
+
+char *
+cfun_string_to_c_string(object string)
+{
+  /* DOC: Turn a lisp string into a C string. */
+  signed long total_length = cfun_integer_to_c_integer(cfun_string_total_length(string));
+  char* new_string = malloc(sizeof(char) * (total_length + 1));
+  string_rack r = ((string_rack) rack_of(string));
+  for (signed long int i = 0; i < total_length; i++) {
+    new_string[i] = cfun_character_to_c_char((r->characters)[i]);
+  }
+  new_string[total_length] = '\0';
+  return new_string;
 }
 
 object

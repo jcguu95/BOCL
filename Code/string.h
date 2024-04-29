@@ -10,6 +10,7 @@ extern object cfun_c_string_to_string(char *s);
 extern object cfun_stringp(object maybe_string);
 extern object cfun_char(object string, object index);
 extern object cfun_setf_char(object character, object string, object index);
+extern char *cfun_string_to_c_string(object string);
 extern object cfun_string_total_length(object string);
 extern object cfun_setf_string_total_length(object length, object string);
 extern object cfun_string_fill_pointer(object string);

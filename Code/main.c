@@ -177,6 +177,10 @@ int main(void)
   printf("PASS: List Test 4.");
   printf("\n");
 
+  printf("%s", cfun_string_to_c_string(cfun_c_string_to_string("LOL\n")));
+  printf("PASS: String Conversion Test.");
+  printf("\n");
+
   /* Test for mini_reader */
   /* cfun_print(mini_reader(str_to_stream("(1 2 4)")), standard_output); */
   /* printf("\n"); */
