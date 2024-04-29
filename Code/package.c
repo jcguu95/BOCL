@@ -5,6 +5,11 @@
 #include "string.h"
 #include "cons.h"
 
+/* DEBUG */
+#include <stdio.h>
+#include "print.h"
+#include "stream.h"
+
 DEFINE_CLASS(class_package);
 
 object package_common_lisp;
@@ -111,6 +116,13 @@ package_add_external_symbol(object package, object symbol)
 {
   package_rack r = (package_rack) rack_of(package);
   r -> external_symbols = cfun_cons(symbol, r -> external_symbols);
+}
+
+extern void
+package_add_internal_symbol(object package, object symbol)
+{
+  package_rack r = (package_rack) rack_of(package);
+  r -> internal_symbols = cfun_cons(symbol, r -> internal_symbols);
 }
 
 void
@@ -1103,8 +1115,9 @@ ensure_package_initialized_2(void)
 object
 find_symbol_in_list(object string, object list)
 {
+  assert(cfun_stringp(string));
+  assert(cfun_listp(list));
   for (object rest = list; rest != symbol_nil; rest = cfun_cdr(rest)) {
-    rest = cfun_cdr(rest);
     object symbol = cfun_car(rest);
     object name = cfun_symbol_name(symbol);
     if (cfun_string_equal_sign(name, string) == symbol_t) {
@@ -1149,9 +1162,8 @@ cfun_intern(object string, object package)
   if (symbol != 0) {
     return symbol;
   } else {
-    package_rack r = (package_rack) rack_of(package);
     symbol = cfun_make_symbol(string, package);
-    r -> internal_symbols = cfun_cons(symbol, r -> internal_symbols);
+    package_add_internal_symbol(package, symbol);
     return symbol;
   }
 }
