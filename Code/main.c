@@ -177,8 +177,19 @@ int main(void)
   printf("PASS: List Test 4.");
   printf("\n");
 
-  printf("%s", cfun_string_to_c_string(cfun_c_string_to_string("LOL\n")));
+  cfun_assert
+    (cfun_equal
+     (cfun_c_string_to_string("LOL"),
+      cfun_c_string_to_string(cfun_string_to_c_string(cfun_c_string_to_string("LOL")))
+      ));
   printf("PASS: String Conversion Test.");
+  printf("\n");
+
+  cfun_assert
+    (cfun_equal
+     (cfun_cons(z, symbol_nil),
+      mini_read_from_string(cfun_c_string_to_string("(42)"))));
+  printf("PASS: Mini read-from-string.");
   printf("\n");
 
   /* Test for mini_reader */

@@ -143,5 +143,5 @@ mini_reader(FILE *stream)
 object
 mini_read_from_string(object string) {
   /* FIXME string has to be turned into a C string first. */
-   return mini_reader(str_to_stream(string));
+   return mini_reader(str_to_stream(cfun_string_to_c_string(string)));
 }
