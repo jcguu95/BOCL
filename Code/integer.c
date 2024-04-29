@@ -12,7 +12,9 @@ object integer_1;
 void
 ensure_integer_initialized(void)
 {
-  if(integer_initialized_p) return;
+  if (integer_initialized_p) {
+    return;
+  }
   integer_0 = cfun_integer_to_integer(0);
   integer_1 = cfun_integer_to_integer(1);
   integer_initialized_p = 1;
@@ -29,18 +31,19 @@ struct integer_rack
 static int integer_rack_size = sizeof(struct integer_rack);
 
 object
-cfun_integerp(object maybe_integer)
+cfun_integerp(object obj)
 {
-  return class_of(maybe_integer) == class_integer ? symbol_t : symbol_nil;
+  return class_of(obj) == class_integer ? symbol_t : symbol_nil;
 }
 
 object
 cfun_integer_to_integer(signed long int c_integer)
 {
-  object obj = (object) malloc(header_size);
+  /* DOC: Turn a C integer into a lisp integer. */
+  object obj = make_object();
   integer_rack r = (integer_rack) malloc(integer_rack_size);
   set_class_of(obj, class_integer);
-  set_rack_of(obj, (rack) r);
+  set_rack_of(obj, &(r->prefix)); /* TODO Find out how this works. */
   mpz_init(r -> value);
   mpz_set_si(r -> value, c_integer);
   return obj;
@@ -49,7 +52,7 @@ cfun_integer_to_integer(signed long int c_integer)
 signed long int
 cfun_integer_to_c_integer(object integer)
 {
-  /* DOC: Transform an integer object into a C-integer. */
+  /* DOC: Turn a lisp integer into a C integer. */
   assert(cfun_integerp(integer) == symbol_t);
   return mpz_get_si(((integer_rack) rack_of(integer)) -> value);
 }

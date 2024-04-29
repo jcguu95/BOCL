@@ -1,14 +1,13 @@
 #include "object.h"
 
 size_t header_size = sizeof(struct header);
+size_t rack_size = sizeof(struct rack);
 
 object
 make_object(void)
 {
   return (object) malloc(header_size);
 }
-
-size_t rack_size = sizeof(struct rack);
 
 rack
 make_rack(size_t size)
