@@ -31,9 +31,9 @@ int main(void)
   /* some simple calculations */
   object x = cfun_c_integer_to_integer(19);
   object y = cfun_c_integer_to_integer(23);
-  object z = cfun_binary_add_integer(x, y);
-  cfun_assert(cfun_binary_equal_integer(z, cfun_c_integer_to_integer(42)));
-  printf("The answer is %ld.", cfun_integer_to_c_integer(z));
+  object fourty_two = cfun_binary_add_integer(x, y);
+  cfun_assert(cfun_binary_equal_integer(fourty_two, cfun_c_integer_to_integer(42)));
+  printf("The answer is %ld.", cfun_integer_to_c_integer(fourty_two));
   printf("\n");
 
   /* Print lisp strings. */
@@ -97,7 +97,7 @@ int main(void)
   printf("\n");
 
   /* Print a list. */
-  object obj_arr[] = {cfun_c_string_to_string("LISP"), x, y, z, symbol_nil};
+  object obj_arr[] = {cfun_c_string_to_string("LISP"), x, y, fourty_two, symbol_nil};
   size_t size = sizeof(obj_arr) / sizeof(obj_arr[0]);
   cfun_print(cfun_list(obj_arr, size), standard_output);
   printf("  ; OK: x0001");
@@ -139,9 +139,9 @@ int main(void)
   cfun_assert
     (cfun_equal
      (cfun_cons
-      (z,
+      (fourty_two,
        cfun_cons
-       (z, symbol_nil)),
+       (fourty_two, symbol_nil)),
       mini_reader
       (str_to_stream("(42 42)"))));
   printf("PASS: List Test 1.");
@@ -152,7 +152,7 @@ int main(void)
      (cfun_cons
       (symbol_nil,
        cfun_cons
-       (z, symbol_nil)),
+       (fourty_two, symbol_nil)),
       mini_reader
       (str_to_stream("(() 42)"))));
   printf("PASS: List Test 2.");
@@ -161,7 +161,7 @@ int main(void)
   cfun_assert
     (cfun_equal
      (cfun_cons
-      (z,
+      (fourty_two,
        cfun_cons
        (symbol_nil, symbol_nil)),
       mini_reader
@@ -187,7 +187,7 @@ int main(void)
 
   cfun_assert
     (cfun_equal
-     (cfun_cons(z, symbol_nil),
+     (cfun_cons(fourty_two, symbol_nil),
       mini_read_from_string(cfun_c_string_to_string("(42)"))));
   printf("PASS: Mini read-from-string.");
   printf("\n");
