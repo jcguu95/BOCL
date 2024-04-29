@@ -300,6 +300,8 @@ cfun_find_symbol_in_list(object string, object list)
       return symbol;
     }
   }
+  /* FIXME: Recall that an object is a pointer to header. 0 is a legit
+     pointer.. though is it a bit dangerous? */
   return 0;
 }
 
@@ -324,6 +326,8 @@ cfun_find_symbol_in_package(object string, object package)
       return symbol;
     }
   }
+  /* FIXME: Recall that an object is a pointer to header. 0 is a legit
+     pointer.. though is it a bit dangerous? */
   return 0;
 }
 
