@@ -12,6 +12,9 @@ extern object package_slot_nicknames(object package);
 extern void set_package_slot_nicknames(object package, object name);
 extern object cfun_packagep(object maybe_package);
 extern object cfun_package_name(object maybe_package);
+extern object cfun_package_nicknames(object maybe_package);
+extern void set_package_name(object package, object string);
+extern void set_package_nicknames(object package, object list);
 extern object cfun_find_symbol_in_package(object string, object package);
 extern object cfun_intern(object string, object package);
 

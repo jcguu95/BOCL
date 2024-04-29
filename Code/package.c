@@ -35,6 +35,20 @@ struct package_rack
 static int package_rack_size = sizeof(struct package_rack);
 
 void
+set_package_name(object package, object string)
+{
+  package_rack r = (package_rack) rack_of(package);
+  r -> name = string;
+}
+
+void
+set_package_nicknames(object package, object list)
+{
+  package_rack r = (package_rack) rack_of(package);
+  r -> nicknames = list;
+}
+
+void
 make_common_lisp_package()
 {
   /* NOTE This is almost the same as the subroutine of the function
@@ -53,8 +67,8 @@ make_common_lisp_package()
   r -> used_packages = symbol_nil;
   r -> internal_symbols = symbol_nil;
   r -> external_symbols = symbol_nil;
-  r -> name = cfun_string_to_string("COMMON-LISP");
-  r -> nicknames = cfun_cons(cfun_string_to_string("CL"), symbol_nil);
+  set_package_name(package, cfun_string_to_string("COMMON-LISP"));
+  set_package_nicknames(package, cfun_cons(cfun_string_to_string("CL"), symbol_nil));
   package_common_lisp = package;
 }
 
@@ -76,17 +90,15 @@ void
 make_keyword_package()
 {
   package_keyword = make_package();
-  package_rack r = (package_rack) rack_of(package_keyword);
-  r -> name = cfun_string_to_string("KEYWORD");
+  set_package_name(package_keyword, cfun_string_to_string("KEYWORD"));
 }
 
 void
 make_common_lisp_user_package()
 {
   package_common_lisp_user = make_package();
-  package_rack r = (package_rack) rack_of(package_common_lisp_user);
-  r -> name = cfun_string_to_string("COMMON-LISP-USER");
-  r -> nicknames = cfun_cons(cfun_string_to_string("CL-USER"), symbol_nil);
+  set_package_name(package_common_lisp_user, cfun_string_to_string("COMMON-LISP-USER"));
+  set_package_nicknames(package_common_lisp_user, cfun_cons(cfun_string_to_string("CL-USER"), symbol_nil));
 }
 
 void
@@ -113,6 +125,13 @@ cfun_package_name(object maybe_package)
 {
   assert(cfun_packagep(maybe_package) == symbol_t);
   return ((package_rack) rack_of(maybe_package)) -> name;
+}
+
+object
+cfun_package_nicknames(object maybe_package)
+{
+  assert(cfun_packagep(maybe_package) == symbol_t);
+  return ((package_rack) rack_of(maybe_package)) -> nicknames;
 }
 
 object
