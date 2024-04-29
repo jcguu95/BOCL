@@ -59,7 +59,7 @@ l_characterp(__attribute__((unused)) object static_environment, object arguments
 {
   check_argument_count(arguments, 1, 1);
   object argument = cfun_car(arguments);
-  return list1(cfun_characterp(argument));
+  return cfun_cons(cfun_characterp(argument), symbol_nil);
 }
 
 char

@@ -59,36 +59,6 @@ cfun_cdr(object cons)
 }
 
 object
-list1(object element)
-{
-  return cfun_cons(element, symbol_nil);
-}
-
-object
-list2(object element1, object element2)
-{
-  return cfun_cons(element1, list1(element2));
-}
-
-object
-list3(object element1, object element2, object element3)
-{
-  return cfun_cons(element1, list2(element2, element3));
-}
-
-object
-list4(object element1, object element2, object element3, object element4)
-{
-  return cfun_cons(element1, list3(element2, element3, element4));
-}
-
-object
-list5(object element1, object element2, object element3, object element4, object element5)
-{
-  return cfun_cons(element1, list4(element2, element3, element4, element5));
-}
-
-object
 cfun_list(object objects[], size_t size) {
     object result = symbol_nil;
     for (size_t i = size - 1; i > 0; i--) {
@@ -103,50 +73,6 @@ lfun_cons(__attribute__((unused)) object static_environment, object arguments)
 {
   check_argument_count(arguments, 2, 2);
   return(cfun_cons(cfun_car(arguments), cfun_car(cfun_cdr(arguments))));
-}
-
-object
-lfun_car(__attribute__((unused)) object static_environment, object arguments)
-{
-  check_argument_count(arguments, 1, 1);
-  object argument = cfun_car(arguments);
-  if(argument == symbol_nil)
-    {
-      return list1(symbol_nil);
-    }
-  else if(cfun_consp(argument) == symbol_t)
-    {
-      return list1(cfun_car(argument));
-    }
-  else
-    return named_call(symbol_error,
-                      list5(symbol_type_error,
-                            keyword_datum,
-                            argument,
-                            keyword_expected_type,
-                            symbol_list));
-}
-
-object
-lfun_cdr(__attribute__((unused)) object static_environment, object arguments)
-{
-  check_argument_count(arguments, 1, 1);
-  object argument = cfun_car(arguments);
-  if(argument == symbol_nil)
-    {
-      return list1(symbol_nil);
-    }
-  else if(cfun_consp(argument) == symbol_t)
-    {
-      return list1(cfun_cdr(argument));
-    }
-  else
-    return named_call(symbol_error,
-                      list5(symbol_type_error,
-                            keyword_datum,
-                            argument,
-                            keyword_expected_type,
-                            symbol_list));
 }
 
 object
@@ -195,3 +121,77 @@ cfun_rplacd(object cons, object obj)
   ((cons_rack) rack_of(cons)) -> cdr = obj;
   return cons;
 }
+
+/* object */
+/* list1(object element) */
+/* { */
+/*   return cfun_cons(element, symbol_nil); */
+/* } */
+
+/* object */
+/* list2(object element1, object element2) */
+/* { */
+/*   return cfun_cons(element1, list1(element2)); */
+/* } */
+
+/* object */
+/* list3(object element1, object element2, object element3) */
+/* { */
+/*   return cfun_cons(element1, list2(element2, element3)); */
+/* } */
+
+/* object */
+/* list4(object element1, object element2, object element3, object element4) */
+/* { */
+/*   return cfun_cons(element1, list3(element2, element3, element4)); */
+/* } */
+
+/* object */
+/* list5(object element1, object element2, object element3, object element4, object element5) */
+/* { */
+/*   return cfun_cons(element1, list4(element2, element3, element4, element5)); */
+/* } */
+
+/* object */
+/* lfun_car(__attribute__((unused)) object static_environment, object arguments) */
+/* { */
+/*   check_argument_count(arguments, 1, 1); */
+/*   object argument = cfun_car(arguments); */
+/*   if(argument == symbol_nil) */
+/*     { */
+/*       return list1(symbol_nil); */
+/*     } */
+/*   else if(cfun_consp(argument) == symbol_t) */
+/*     { */
+/*       return list1(cfun_car(argument)); */
+/*     } */
+/*   else */
+/*     return named_call(symbol_error, */
+/*                       list5(symbol_type_error, */
+/*                             keyword_datum, */
+/*                             argument, */
+/*                             keyword_expected_type, */
+/*                             symbol_list)); */
+/* } */
+
+/* object */
+/* lfun_cdr(__attribute__((unused)) object static_environment, object arguments) */
+/* { */
+/*   check_argument_count(arguments, 1, 1); */
+/*   object argument = cfun_car(arguments); */
+/*   if(argument == symbol_nil) */
+/*     { */
+/*       return list1(symbol_nil); */
+/*     } */
+/*   else if(cfun_consp(argument) == symbol_t) */
+/*     { */
+/*       return list1(cfun_cdr(argument)); */
+/*     } */
+/*   else */
+/*     return named_call(symbol_error, */
+/*                       list5(symbol_type_error, */
+/*                             keyword_datum, */
+/*                             argument, */
+/*                             keyword_expected_type, */
+/*                             symbol_list)); */
+/* } */

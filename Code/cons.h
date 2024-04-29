@@ -13,11 +13,11 @@ extern object cfun_length(object list);
 extern object cfun_rplaca(object cons, object obj);
 extern object cfun_rpldca(object cons, object obj);
 
-extern object list1(object element);
-extern object list2(object element1, object element2);
-extern object list3(object element1, object element2, object element3);
-extern object list4(object element1, object element2, object element3, object element4);
-extern object list5(object element1, object element2, object element3, object element4, object element5);
+/* extern object list1(object element); */
+/* extern object list2(object element1, object element2); */
+/* extern object list3(object element1, object element2, object element3); */
+/* extern object list4(object element1, object element2, object element3, object element4); */
+/* extern object list5(object element1, object element2, object element3, object element4, object element5); */
 extern object cfun_list(object objects[], size_t size);
 
 extern object class_cons;
