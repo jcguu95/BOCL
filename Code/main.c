@@ -105,9 +105,22 @@ int main(void)
 
   cfun_assert
     (cfun_equal
+     (cfun_cons(fourty_two, symbol_nil),
+      mini_read_from_string(cfun_c_string_to_string("(42)"))));
+  printf("PASS: Mini read-from-string.");
+  printf("\n");
+
+  cfun_assert
+    (cfun_equal
+     (cfun_cons(fourty_two, symbol_nil),
+      mini_read_from_c_string("(42)")));
+  printf("PASS: Mini read-from-c-string.");
+  printf("\n");
+
+  cfun_assert
+    (cfun_equal
      (cfun_c_string_to_string("LISP"),
-      mini_reader
-      (str_to_stream("\"LISP\""))));
+      mini_read_from_c_string("\"LISP\"")));
   printf("PASS: String Test.");
   printf("\n");
 
@@ -117,22 +130,22 @@ int main(void)
 
   cfun_assert
     (cfun_equal
-     (mini_reader(str_to_stream("niL")),
-      symbol_nil));
+     (symbol_nil,
+      (mini_read_from_c_string("niL"))));
   printf("PASS: NIL test 2.");
   printf("\n");
 
   cfun_assert
     (cfun_equal
-     (mini_reader(str_to_stream("IF")),
-      mini_reader(str_to_stream("IF"))));
+     (mini_read_from_c_string("IF"),
+      mini_read_from_c_string("if")));
   printf("PASS: External symbol test.");
   printf("\n");
 
   cfun_assert
     (cfun_equal
-     (mini_reader(str_to_stream("ADHOC_symbol")),
-      mini_reader(str_to_stream("ADHOC_Symbol"))));
+     (mini_read_from_c_string("ADHOC_symbol"),
+      mini_read_from_c_string("ADHOC_symboL")));
   printf("PASS: Internal symbol test.");
   printf("\n");
 
@@ -142,8 +155,7 @@ int main(void)
       (fourty_two,
        cfun_cons
        (fourty_two, symbol_nil)),
-      mini_reader
-      (str_to_stream("(42 42)"))));
+      mini_read_from_c_string("(42 42)")));
   printf("PASS: List Test 1.");
   printf("\n");
 
@@ -153,8 +165,7 @@ int main(void)
       (symbol_nil,
        cfun_cons
        (fourty_two, symbol_nil)),
-      mini_reader
-      (str_to_stream("(() 42)"))));
+      mini_read_from_c_string("(() 42)")));
   printf("PASS: List Test 2.");
   printf("\n");
 
@@ -164,16 +175,14 @@ int main(void)
       (fourty_two,
        cfun_cons
        (symbol_nil, symbol_nil)),
-      mini_reader
-      (str_to_stream("(42 nil)"))));
+      mini_read_from_c_string("(42 nil)")));
   printf("PASS: List Test 3.");
   printf("\n");
 
   cfun_assert
     (cfun_equal
      (cfun_list(obj_arr, size),
-      mini_reader
-      (str_to_stream("(\"LISP\" 19 23 42 nil)"))));
+      mini_read_from_c_string("(\"LISP\" 19 23 42 nil)")));
   printf("PASS: List Test 4.");
   printf("\n");
 
@@ -183,13 +192,6 @@ int main(void)
       cfun_c_string_to_string(cfun_string_to_c_string(cfun_c_string_to_string("LOL")))
       ));
   printf("PASS: String Conversion Test.");
-  printf("\n");
-
-  cfun_assert
-    (cfun_equal
-     (cfun_cons(fourty_two, symbol_nil),
-      mini_read_from_string(cfun_c_string_to_string("(42)"))));
-  printf("PASS: Mini read-from-string.");
   printf("\n");
 
   /* Test for mini_reader */

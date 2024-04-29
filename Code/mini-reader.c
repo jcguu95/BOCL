@@ -142,6 +142,12 @@ mini_reader(FILE *stream)
 
 object
 mini_read_from_string(object string) {
-  /* FIXME string has to be turned into a C string first. */
-   return mini_reader(str_to_stream(cfun_string_to_c_string(string)));
+  /* DOC Read a lisp string into an AST. */
+  return mini_reader(str_to_stream(cfun_string_to_c_string(string)));
+}
+
+object
+mini_read_from_c_string(char *string) {
+  /* DOC Read a C string into an AST. */
+  return mini_reader(str_to_stream(cfun_string_to_c_string(cfun_c_string_to_string(string))));
 }
