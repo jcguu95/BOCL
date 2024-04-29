@@ -7,6 +7,7 @@
 #include "mini-reader.h"
 #include <stdio.h>
 #include <stdbool.h>
+#include "stream.h"
 
 int
 next_interesting_character(FILE *stream)
@@ -38,7 +39,7 @@ mini_string_reader(FILE *stream)
 {
   int c = next_interesting_character(stream);
   if (c == '"') {
-    return cfun_string_to_string("");
+    return cfun_c_string_to_string("");
   } else {
     ungetc(c, stream);
     unsigned long i = 0;
@@ -60,7 +61,7 @@ mini_string_reader(FILE *stream)
       }
     }
     str[i] = '\0';
-    return cfun_string_to_string(str);
+    return cfun_c_string_to_string(str);
   }
 }
 
@@ -133,8 +134,14 @@ mini_reader(FILE *stream)
           buffer[i] -= 32;
         }
       }
-      object string = cfun_string_to_string(buffer);
+      object string = cfun_c_string_to_string(buffer);
       return cfun_intern(string, current_package);
     }
   }
+}
+
+object
+mini_read_from_string(object string) {
+  /* FIXME string has to be turned into a C string first. */
+   return mini_reader(str_to_stream(string));
 }

@@ -1083,7 +1083,7 @@ object
 cfun_symbol_to_symbol(char *s, object package)
 {
   object result = make_symbol();
-  object name = cfun_string_to_string(s);
+  object name = cfun_c_string_to_string(s);
   symbol_rack r = (symbol_rack) rack_of(result);
   r -> name = name;
   r -> package = package;

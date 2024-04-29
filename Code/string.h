@@ -6,7 +6,7 @@
 extern void ensure_string_initialized(void);
 
 extern object cfun_make_string(object size, object initial_element);
-extern object cfun_string_to_string(char *s);
+extern object cfun_c_string_to_string(char *s);
 extern object cfun_stringp(object maybe_string);
 extern object cfun_char(object string, object index);
 extern object cfun_setf_char(object character, object string, object index);

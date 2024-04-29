@@ -115,8 +115,8 @@ make_common_lisp_package()
   r -> used_packages = symbol_nil;
   r -> internal_symbols = symbol_nil;
   r -> external_symbols = symbol_nil;
-  set_package_name(package, cfun_string_to_string("COMMON-LISP"));
-  set_package_nicknames(package, cfun_cons(cfun_string_to_string("CL"), symbol_nil));
+  set_package_name(package, cfun_c_string_to_string("COMMON-LISP"));
+  set_package_nicknames(package, cfun_cons(cfun_c_string_to_string("CL"), symbol_nil));
   package_common_lisp = package;
 }
 
@@ -138,15 +138,15 @@ void
 make_keyword_package()
 {
   package_keyword = make_package();
-  set_package_name(package_keyword, cfun_string_to_string("KEYWORD"));
+  set_package_name(package_keyword, cfun_c_string_to_string("KEYWORD"));
 }
 
 void
 make_common_lisp_user_package()
 {
   package_common_lisp_user = make_package();
-  set_package_name(package_common_lisp_user, cfun_string_to_string("COMMON-LISP-USER"));
-  set_package_nicknames(package_common_lisp_user, cfun_cons(cfun_string_to_string("CL-USER"), symbol_nil));
+  set_package_name(package_common_lisp_user, cfun_c_string_to_string("COMMON-LISP-USER"));
+  set_package_nicknames(package_common_lisp_user, cfun_cons(cfun_c_string_to_string("CL-USER"), symbol_nil));
 }
 
 void
