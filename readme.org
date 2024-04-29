@@ -11,3 +11,5 @@
    This will be helpful for debugging later.
 
 4. Implement an evaluator and 25 special ops.
+
+   https://novaspec.org/cl/3_1_Evaluation#sec_3_1_2_1_2_1
