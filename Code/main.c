@@ -15,7 +15,7 @@
 #include "control.h"
 #include "function.h"
 
-#include "substandard-reader.h"
+#include "mini-reader.h"
 
 int main(void)
 {
@@ -84,7 +84,7 @@ int main(void)
   cfun_assert
     (cfun_equal
      (cfun_string_to_string("LISP"),
-      substandard_reader
+      mini_reader
       (str_to_stream("\"LISP\""))));
   printf("PASS: String Test.");
   printf("\n");
@@ -95,22 +95,22 @@ int main(void)
 
   cfun_assert
     (cfun_equal
-     (substandard_reader(str_to_stream("niL")),
+     (mini_reader(str_to_stream("niL")),
       symbol_nil));
   printf("PASS: NIL test 2.");
   printf("\n");
 
   cfun_assert
     (cfun_equal
-     (substandard_reader(str_to_stream("IF")),
-      substandard_reader(str_to_stream("IF"))));
+     (mini_reader(str_to_stream("IF")),
+      mini_reader(str_to_stream("IF"))));
   printf("PASS: External symbol test.");
   printf("\n");
 
   cfun_assert
     (cfun_equal
-     (substandard_reader(str_to_stream("ADHOC_symbol")),
-      substandard_reader(str_to_stream("ADHOC_Symbol"))));
+     (mini_reader(str_to_stream("ADHOC_symbol")),
+      mini_reader(str_to_stream("ADHOC_Symbol"))));
   printf("PASS: Internal symbol test.");
   printf("\n");
 
@@ -120,7 +120,7 @@ int main(void)
       (z,
        cfun_cons
        (z, symbol_nil)),
-      substandard_reader
+      mini_reader
       (str_to_stream("(42 42)"))));
   printf("PASS: List Test 1.");
   printf("\n");
@@ -131,7 +131,7 @@ int main(void)
       (symbol_nil,
        cfun_cons
        (z, symbol_nil)),
-      substandard_reader
+      mini_reader
       (str_to_stream("(() 42)"))));
   printf("PASS: List Test 2.");
   printf("\n");
@@ -142,7 +142,7 @@ int main(void)
       (z,
        cfun_cons
        (symbol_nil, symbol_nil)),
-      substandard_reader
+      mini_reader
       (str_to_stream("(42 nil)"))));
   printf("PASS: List Test 3.");
   printf("\n");
@@ -150,17 +150,17 @@ int main(void)
   cfun_assert
     (cfun_equal
      (cfun_list(obj_arr, size),
-      substandard_reader
+      mini_reader
       (str_to_stream("(\"LISP\" 19 23 42 nil)"))));
   printf("PASS: List Test 4.");
   printf("\n");
 
-  /* Test for substandard_reader */
-  /* cfun_print(substandard_reader(str_to_stream("(1 2 4)")), standard_output); */
+  /* Test for mini_reader */
+  /* cfun_print(mini_reader(str_to_stream("(1 2 4)")), standard_output); */
   /* printf("\n"); */
   /* /\* user input *\/ */
   /* printf("\nSay something: "); */
-  /* object tmp = substandard_reader(stdin); */
+  /* object tmp = mini_reader(stdin); */
   /* cfun_print(tmp, standard_output); */
   /* printf("\n"); */
 

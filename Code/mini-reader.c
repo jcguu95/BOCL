@@ -4,7 +4,7 @@
 #include "string.h"
 #include "cons.h"
 #include "integer.h"
-#include "substandard-reader.h"
+#include "mini-reader.h"
 #include <stdio.h>
 #include <stdbool.h>
 
@@ -14,26 +14,27 @@ next_interesting_character(FILE *stream)
   int c;
   for(c = getc(stream);
       c == 9 || c == 10 || c == ' '; // 9 and 10 are tab and newline
-      c = getc(stream))
+      c = getc(stream)) {
     ;
+  }
   return c;
 }
 
 object
-substandard_list_reader(FILE *stream)
+mini_list_reader(FILE *stream)
 {
   int c = next_interesting_character(stream);
   if (c == ')') {
     return symbol_nil;
   } else {
     ungetc(c, stream);
-    object element = substandard_reader(stream);
-    return cfun_cons(element, substandard_list_reader(stream));
+    object element = mini_reader(stream);
+    return cfun_cons(element, mini_list_reader(stream));
   }
 }
 
 object
-substandard_string_reader(FILE *stream)
+mini_string_reader(FILE *stream)
 {
   int c = next_interesting_character(stream);
   if (c == '"') {
@@ -99,16 +100,16 @@ char constituent[128] =
   };
 
 object
-substandard_reader(FILE *stream)
+mini_reader(FILE *stream)
 {
   int c = next_interesting_character(stream);
   if (c == ';') {
     for (c = getc(stream); c != 10; c = getc(stream));
-    return substandard_reader(stream);
+    return mini_reader(stream);
   } else if (c == '(') {
-    return substandard_list_reader(stream);
+    return mini_list_reader(stream);
   } else if (c == '"') {
-    return substandard_string_reader(stream);
+    return mini_string_reader(stream);
   } else {
     char buffer[1000];
     buffer[0] = c;
