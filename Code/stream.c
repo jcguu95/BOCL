@@ -52,7 +52,7 @@ cfun_stream_read_char(object stream)
 {
   FILE *c_stream = ((stream_rack) rack_of(stream)) -> c_stream;
   char c_char = getc(c_stream);
-  return cfun_char_to_character(c_char);
+  return cfun_c_char_to_character(c_char);
 }
 
 object

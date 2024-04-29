@@ -41,11 +41,19 @@ ensure_character_initialized(void)
 }
 
 object
-cfun_char_to_character(char c)
+cfun_c_char_to_character(char c)
 {
   /* DOC: Return a character object transformed from a C-character c. */
   ensure_character_initialized();
   return characters[(int) c];
+}
+
+char
+cfun_character_to_c_char(object character)
+{
+  /* DOC: Return a C character transformed from lisp character. */
+  assert(cfun_characterp(character) == symbol_t);
+  return ((character_rack) rack_of(character)) -> character;
 }
 
 object
@@ -60,13 +68,6 @@ l_characterp(__attribute__((unused)) object static_environment, object arguments
   check_argument_count(arguments, 1, 1);
   object argument = cfun_car(arguments);
   return cfun_cons(cfun_characterp(argument), symbol_nil);
-}
-
-char
-cfun_character_to_c_char(object character)
-{
- assert(cfun_characterp(character) == symbol_t);
- return ((character_rack) rack_of(character)) -> character;
 }
 
 object

@@ -4,7 +4,7 @@
 #include "object.h"
 
 extern void ensure_character_initialized(void);
-extern object cfun_char_to_character(char c);
+extern object cfun_c_char_to_character(char c);
 extern char cfun_character_to_c_char(object character);
 extern object cfun_characterp(object maybe_character);
 extern object cfun_char_equal_sign(object char1, object char2);

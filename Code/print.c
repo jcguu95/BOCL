@@ -26,7 +26,7 @@ cfun_print_string(object string, object stream)
 {
   object length = cfun_string_total_length(string);
   signed long int c_length = cfun_integer_to_c_integer(length);
-  object double_quote = cfun_char_to_character('"');
+  object double_quote = cfun_c_char_to_character('"');
   cfun_stream_write_char(stream, double_quote);
   for(int i = 0; i < c_length; i++)
     {
@@ -40,9 +40,9 @@ cfun_print_string(object string, object stream)
 void
 cfun_print_cons(object cons, object stream)
 {
-  object left_parenthesis = cfun_char_to_character('(');
-  object right_parenthesis = cfun_char_to_character(')');
-  object space = cfun_char_to_character(' ');
+  object left_parenthesis = cfun_c_char_to_character('(');
+  object right_parenthesis = cfun_c_char_to_character(')');
+  object space = cfun_c_char_to_character(' ');
   object remaining = cons;
   cfun_stream_write_char(stream, left_parenthesis);
   while(cfun_consp(remaining) == symbol_t)
@@ -56,7 +56,7 @@ cfun_print_cons(object cons, object stream)
     cfun_stream_write_char(stream, right_parenthesis);
   else
     {
-      object dot = cfun_char_to_character('.');
+      object dot = cfun_c_char_to_character('.');
       cfun_stream_write_char(stream, space);
       cfun_stream_write_char(stream, dot);
       cfun_stream_write_char(stream, space);
@@ -72,7 +72,7 @@ cfun_print_integer(object integer, object stream)
   char str[11];
   int len = sprintf(str, "%d", num);
   for (int i = 0; i < len; i++)
-    cfun_stream_write_char(stream, cfun_char_to_character(str[i]));
+    cfun_stream_write_char(stream, cfun_c_char_to_character(str[i]));
 }
 
 void
@@ -80,10 +80,10 @@ cfun_print_package(object package, object stream)
 {
   char str[] = "#<PACKAGE ";
   for (int i = 0; str[i] != '\0'; i++) {
-    cfun_stream_write_char(stream, cfun_char_to_character(str[i]));
+    cfun_stream_write_char(stream, cfun_c_char_to_character(str[i]));
   }
   cfun_print(cfun_package_name(package), stream);
-  cfun_stream_write_char(stream, cfun_char_to_character('>'));
+  cfun_stream_write_char(stream, cfun_c_char_to_character('>'));
 }
 
 void
@@ -92,9 +92,9 @@ cfun_print_unknown(object unknown, object stream)
   (void)unknown;
   char str[] = "#<UNKNOWN ?>";
   for (int i = 0; str[i] != '\0'; i++) {
-    cfun_stream_write_char(stream, cfun_char_to_character(str[i]));
+    cfun_stream_write_char(stream, cfun_c_char_to_character(str[i]));
   }
-  /* object questionmark = cfun_char_to_character('?'); */
+  /* object questionmark = cfun_c_char_to_character('?'); */
   /* cfun_stream_write_char(stream, questionmark); */
 }
 

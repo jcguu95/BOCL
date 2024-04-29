@@ -115,7 +115,7 @@ cfun_c_string_to_string(char *s)
   set_rack_of(obj, (rack) r);
   for(int i = 0; i < length; i++)
     {
-      object c = cfun_char_to_character(s[i]);
+      object c = cfun_c_char_to_character(s[i]);
       r -> characters[i] = c;
     }
   r -> dimensions = cfun_cons(integer_length, symbol_nil);
