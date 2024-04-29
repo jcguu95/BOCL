@@ -63,7 +63,7 @@ cfun_binary_add_integer(object augend, object addend)
 {
   assert(cfun_integerp(augend) == symbol_t);
   assert(cfun_integerp(addend) == symbol_t);
-  object obj = (object) malloc(header_size);
+  object obj = make_object();
   integer_rack r = (integer_rack) malloc(integer_rack_size);
   set_class_of(obj, class_integer);
   set_rack_of(obj, (rack) r);
@@ -77,7 +77,7 @@ cfun_binary_add_integer(object augend, object addend)
 object
 cfun_binary_subtract_integer(object minuend, object subtrahend)
 {
-  object obj = (object) malloc(header_size);
+  object obj = make_object();
   integer_rack r = (integer_rack) malloc(integer_rack_size);
   assert(cfun_integerp(minuend) == symbol_t);
   assert(cfun_integerp(subtrahend) == symbol_t);
@@ -93,7 +93,7 @@ cfun_binary_subtract_integer(object minuend, object subtrahend)
 object
 cfun_binary_multiply_integer(object multiplicand, object multiplier)
 {
-  object obj = (object) malloc(header_size);
+  object obj = make_object();
   integer_rack r = (integer_rack) malloc(integer_rack_size);
   assert(cfun_integerp(multiplicand) == symbol_t);
   assert(cfun_integerp(multiplier) == symbol_t);
@@ -109,7 +109,7 @@ cfun_binary_multiply_integer(object multiplicand, object multiplier)
 object
 cfun_binary_divide_floor_quotient_integer(object dividend, object divisor)
 {
-  object obj = (object) malloc(header_size);
+  object obj = make_object();
   integer_rack r = (integer_rack) malloc(integer_rack_size);
   assert(cfun_integerp(dividend) == symbol_t);
   assert(cfun_integerp(divisor) == symbol_t);
@@ -125,7 +125,7 @@ cfun_binary_divide_floor_quotient_integer(object dividend, object divisor)
 object
 cfun_binary_divide_floor_remainder_integer(object dividend, object divisor)
 {
-  object obj = (object) malloc(header_size);
+  object obj = make_object();
   integer_rack r = (integer_rack) malloc(integer_rack_size);
   assert(cfun_integerp(dividend) == symbol_t);
   assert(cfun_integerp(divisor) == symbol_t);
@@ -141,7 +141,7 @@ cfun_binary_divide_floor_remainder_integer(object dividend, object divisor)
 object
 cfun_negate_integer(object integer)
 {
-  object obj = (object) malloc(header_size);
+  object obj = make_object();
   integer_rack r = (integer_rack) malloc(integer_rack_size);
   assert(cfun_integerp(integer) == symbol_t);
   set_class_of(obj, class_integer);
