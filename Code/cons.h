@@ -8,6 +8,8 @@ extern object cfun_consp(object maybe_cons);
 extern object cfun_cons(object car, object cdr);
 extern object cfun_car(object cons);
 extern object cfun_cdr(object cons);
+extern object cfun_listp(object maybe_cons);
+extern object cfun_length(object list);
 extern object cfun_rplaca(object cons, object obj);
 extern object cfun_rpldca(object cons, object obj);
 

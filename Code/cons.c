@@ -1,6 +1,7 @@
 #include "cons.h"
 #include "symbol.h"
 #include "control.h"
+#include "integer.h"
 #include <stdio.h>
 
 DEFINE_CLASS(class_cons);
@@ -152,6 +153,31 @@ object
 cfun_consp(object maybe_cons)
 {
   return class_of(maybe_cons) == class_cons ? symbol_t : symbol_nil;
+}
+
+object
+cfun_listp(object maybe_cons)
+{
+  if (maybe_cons == symbol_nil) {
+    return symbol_t;
+  } else if (cfun_consp(maybe_cons) == symbol_t) {
+    return cfun_listp(cfun_cdr(maybe_cons));
+  }
+  return symbol_nil;
+}
+
+object
+cfun_length(object list)
+{
+  assert(cfun_listp(list) == symbol_t);
+  if (list == symbol_nil) {
+    return cfun_integer_to_integer(0);
+  } else {
+    return
+      cfun_binary_add_integer
+      (cfun_integer_to_integer(1),
+       cfun_length(cfun_cdr(list)));
+  }
 }
 
 object
