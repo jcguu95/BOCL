@@ -60,6 +60,7 @@ make_common_lisp_package()
 object
 make_package()
 {
+  /* NOTE Do you use this to make the COMMON-LISP package. */
   object package = make_object();
   package_rack r = (package_rack) malloc(package_rack_size);
   r -> used_packages = symbol_nil;
@@ -90,7 +91,9 @@ make_common_lisp_user_package()
 void
 ensure_package_initialized(void)
 {
-  if(package_initialized_p) return;
+  if (package_initialized_p) {
+    return;
+  } 
   make_common_lisp_package();
   make_keyword_package();
   make_common_lisp_user_package();
@@ -111,6 +114,20 @@ cfun_package_name(object maybe_package)
   return ((package_rack) rack_of(maybe_package)) -> name;
 }
 
+object
+cfun_package_external_symbols(object package)
+{
+  package_rack r = (package_rack) rack_of(package);
+  return r -> external_symbols;
+}
+
+object
+cfun_package_internal_symbols(object package)
+{
+  package_rack r = (package_rack) rack_of(package);
+  return r -> internal_symbols;
+}
+
 extern void
 package_add_external_symbol(object package, object symbol)
 {
@@ -128,987 +145,119 @@ package_add_internal_symbol(object package, object symbol)
 void
 ensure_package_initialized_2(void)
 {
+  if (package_initialized_2_p) {
+    return;
+  }
   ensure_symbol_initialized();
-  package_rack r = (package_rack) rack_of(package_common_lisp);
-  /* FIXME Does this repeat what make_common_lisp_symbol("ABORT") does? */
-  r -> external_symbols = cfun_cons(symbol_abort, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_abs, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_acons, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_acos, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_acosh, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_add_method, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_adjoin, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_adjust_array, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_adjustable_array_p, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_allocate_instance, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_alpha_char_p, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_alphanumericp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_and, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_append, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_apply, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_apropos, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_apropos_list, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_aref, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_arithmetic_error, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_arithmetic_error_operands, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_arithmetic_error_operation, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_array, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_array_dimension, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_array_dimension_limit, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_array_dimensons, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_array_displacement, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_array_element_type, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_array_has_fill_pointer_p, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_array_in_bounds_p, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_array_rank, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_array_rank_limit, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_array_row_major_index, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_array_total_size, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_array_total_size_limit, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_arrayp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_ash, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_asin, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_asinh, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_assert, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_assoc, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_assoc_if, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_assoc_if_not, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_atan, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_atanh, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_atom, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_base_char, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_base_string, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_bignum, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_bit, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_bit_and, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_bit_andc1, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_bit_andc2, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_bit_eqv, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_bit_ior, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_bit_nand, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_bit_nor, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_bit_not, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_bit_orc1, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_bit_orc2, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_bit_vector, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_bit_vector_p, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_bit_xor, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_block, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_boole, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_boole_1, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_boole_2, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_boole_and, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_boole_andc1, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_boole_andc2, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_boole_c1, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_boole_c2, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_boole_clr, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_boole_eqv, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_boole_ior, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_boole_nand, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_boole_nor, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_boole_orc1, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_boole_orc2, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_boole_set, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_boole_xor, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_boolean, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_both_case_p, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_boundp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_break, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_broadcast_stream, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_broadcast_stream_streams, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_built_in_class, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_butlast, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_byte, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_byte_position, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_byte_size, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_caaaar, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_caaadr, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_caaar, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_caadar, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_caaddr, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_caadr, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_caar, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_cadaar, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_cadadr, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_cadar, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_caddar, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_cadddr, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_caddr, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_cadr, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_call_arguments_limit, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_call_method, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_call_next_method, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_car, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_case, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_catch, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_ccase, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_cdaaar, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_cdaadr, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_cdaar, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_cdadar, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_cdaddr, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_cdadr, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_cdar, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_cddaar, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_cddadr, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_cddar, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_cdddar, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_cddddr, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_cdddr, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_cddr, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_cdr, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_ceiling, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_cell_error, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_cell_error_name, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_cerror, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_change_class, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_char, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_char_code, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_char_code_limit, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_char_downcase, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_char_equal, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_char_greaterp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_char_int, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_char_lessp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_char_name, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_char_not_equal, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_char_not_greaterp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_char_not_lessp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_char_upcase, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_char_not_equal_sign, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_char_less_sign, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_char_less_or_equal_sign, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_char_equal_sign, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_char_greater_sign, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_char_greater_or_equal_sign, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_character, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_characterp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_check_type, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_cis, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_class, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_class_name, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_class_of, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_clear_input, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_clear_output, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_close, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_clrhash, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_code_char, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_coerce, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_compilation_speed, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_compile, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_compile_file, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_compile_file_pathname, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_compiled_function, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_compiled_function_p, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_compiler_macro, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_compiler_macro_function, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_complement, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_complex, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_complexp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_compute_applicable_methods, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_compute_restarts, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_concatenate, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_concatenated_stream, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_concatenated_stream_streams, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_cond, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_condition, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_conjugate, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_cons, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_consp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_constantly, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_constantp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_continue, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_control_error, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_copy_alist, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_copy_list, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_copy_pprint_dispatch, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_copy_readtable, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_copy_seq, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_copy_structure, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_copy_symbol, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_copy_tree, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_cos, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_cosh, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_count, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_count_if, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_count_if_not, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_ctypecase, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_debug, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_decf, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_declaim, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_declaration, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_declare, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_decode_float, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_decode_universal_time, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_defclass, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_defconstant, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_defgeneric, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_define_compiler_macro, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_define_condition, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_define_method_combination, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_define_modify_macro, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_define_setf_expander, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_define_symbol_macro, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_defmacro, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_defmethod, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_defpackage, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_defparameter, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_defsetf, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_defstruct, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_deftype, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_defun, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_defvar, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_delete, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_delete_duplicates, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_delete_file, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_delete_if, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_delete_if_not, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_delete_package, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_denominator, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_deposit_field, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_describe, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_describe_object, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_destructuring_bind, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_digit_char, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_digit_char_p, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_directory, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_directory_namestring, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_disassemble, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_division_by_zero, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_do, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_do_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_do_all_symbols, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_do_external_symbols, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_do_symbols, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_documentation, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_dolist, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_dotimes, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_double_float, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_double_float_epsilon, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_double_float_negative_epsilon, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_dpb, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_dribble, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_dynamic_extent, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_ecase, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_echo_stream, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_echo_stream_input_stream, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_echo_stream_output_stream, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_ed, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_eighth, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_elt, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_encode_universal_time, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_end_of_file, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_endp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_enough_namestring, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_ensure_directories_exist, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_ensure_generic_function, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_eq, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_eql, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_equal, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_equalp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_error, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_etypecase, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_eval, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_eval_when, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_evenp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_every, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_exp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_export, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_expt, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_extended_char, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_fboundp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_fceiling, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_fdefinition, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_ffloor, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_fifth, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_file_author, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_file_error, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_file_error_pathname, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_file_length, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_file_namestring, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_file_position, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_file_stream, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_file_string_length, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_file_write_date, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_fill, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_fill_pointer, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_find, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_find_all_symbols, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_find_class, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_find_if, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_find_if_not, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_find_method, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_find_package, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_find_restart, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_find_symbol, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_finish_output, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_first, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_fixnum, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_flet, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_float, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_float_digits, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_float_precision, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_float_radix, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_float_sign, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_floating_point_inexact, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_floating_point_invalid_operation, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_floating_point_overflow, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_floating_point_underflow, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_floatp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_floor, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_fmakunbound, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_force_output, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_format, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_formatter, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_fourth, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_fresh_line, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_fround, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_ftruncate, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_ftype, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_funcall, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_function, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_function_keywords, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_function_lambda_expression, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_functionp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_gcd, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_generic_function, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_gensym, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_gentemp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_get, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_get_decoded_time, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_get_dispatch_macro_character, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_get_internal_real_time, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_get_internal_run_time, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_get_macro_character, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_get_output_stream_string, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_get_properties, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_get_setf_expansion, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_get_universal_time, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_getf, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_gethash, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_go, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_graphic_char_p, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_handler_bind, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_handler_case, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_hash_table, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_hash_table_count, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_hash_table_p, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_hash_table_rehash_size, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_hash_table_rehash_threshold, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_hash_table_size, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_hash_table_test, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_host_namestring, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_identity, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_if, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_ignorable, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_ignore, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_ignore_errors, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_imagpart, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_import, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_in_package, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_incf, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_initialize_instance, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_inline, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_input_stream_p, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_inspect, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_integer, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_integer_decode_float, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_integer_length, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_integerp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_interactive_stream_p, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_intern, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_internal_time_units_per_second, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_intersection, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_invalid_method_error, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_invoke_debugger, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_invoke_restart, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_invoke_restart_interactively, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_isqrt, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_keyword, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_keywordp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_labels, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_lambda, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_lambda_list_keywords, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_lambda_parameters_limit, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_last, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_lcm, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_ldb, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_ldb_test, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_ldiff, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_least_negative_double_float, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_least_negative_long_float, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_least_negative_normalized_double_float, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_least_negative_normalized_long_float, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_least_negative_normalized_short_float, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_least_negative_normalized_single_float, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_least_negative_short_float, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_least_negative_single_float, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_least_positive_double_float, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_least_positive_long_float, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_least_positive_normalized_double_float, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_least_positive_normalized_long_float, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_least_positive_normalized_short_float, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_least_positive_normalized_single_float, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_least_positive_short_float, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_least_positive_single_float, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_length, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_let, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_let_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_lisp_implementation_type, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_lisp_implementation_version, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_list, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_list_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_list_all_packages, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_list_length, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_listen, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_listp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_load, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_load_logical_pathname_translations, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_load_time_value, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_locally, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_log, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_logand, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_logandc1, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_logandc2, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_logbitp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_logcount, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_logeqv, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_logical_pathname, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_logical_pathname_translations, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_logior, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_lognand, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_lognor, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_lognot, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_logorc1, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_logorc2, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_logtest, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_logxor, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_long_float, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_long_float_epsilon, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_long_float_negative_epsilon, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_long_site_name, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_loop, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_loop_finish, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_lower_case_p, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_machine_instance, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_machine_type, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_machine_version, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_macro_function, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_macroexpand, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_macroexpand_1, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_macrolet, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_make_array, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_make_broadcast_stream, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_make_concatenated_stream, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_make_condition, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_make_dispatch_macro_character, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_make_echo_stream, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_make_hash_table, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_make_instance, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_make_instances_obsolete, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_make_list, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_make_load_form, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_make_load_form_saving_slots, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_make_method, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_make_package, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_make_pathname, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_make_random_state, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_make_sequence, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_make_string, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_make_string_input_stream, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_make_string_output_stream, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_make_symbol, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_make_synonym_stream, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_make_two_way_stream, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_makunbound, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_map, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_map_into, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_mapc, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_mapcan, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_mapcar, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_mapcon, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_maphash, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_mapl, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_maplist, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_mask_field, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_max, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_member, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_member_if, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_member_if_not, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_merge, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_merge_pathnames, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_method, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_method_combination, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_method_combination_error, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_method_qualifiers, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_min, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_minusp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_mismatch, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_mod, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_most_negative_double_float, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_most_negative_fixnum, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_most_negative_long_float, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_most_negative_short_float, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_most_negative_single_float, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_most_positive_double_float, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_most_positive_fixnum, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_most_positive_long_float, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_most_positive_short_float, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_most_positive_single_float, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_muffle_warning, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_multiple_value_bind, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_multiple_value_call, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_multiple_value_list, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_multiple_value_prog1, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_multiple_value_setq, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_multiple_values_limit, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_name_char, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_namestring, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_nbutlast, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_nconc, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_next_method_p, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_nil, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_nintersection, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_ninth, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_no_applicable_method, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_no_next_method, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_not, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_notany, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_notevery, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_notinline, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_nreconc, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_nreverse, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_nset_difference, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_nset_exclusive_or, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_nstring_capitalize, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_nstring_downcase, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_nstring_upcase, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_nsublis, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_nsubst, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_nsubst_if, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_nsubst_if_not, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_nsubstitute, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_nsubstitute_if, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_nsubstitute_if_not, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_nth, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_nth_value, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_nthcdr, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_null, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_number, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_numberp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_numerator, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_nunion, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_oddp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_open, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_open_stream_p, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_optimize, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_or, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_otherwise, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_output_stream_p, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_package, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_package_error, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_package_error_package, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_package_name, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_package_nicknames, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_package_shadowing_symbols, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_package_use_list, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_package_used_by_list, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_packagep, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_pairlis, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_parse_error, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_parse_integer, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_parse_namestring, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_pathname, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_pathname_device, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_pathname_directory, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_pathname_host, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_pathname_match_p, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_pathname_name, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_pathname_type, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_pathname_version, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_pathnamep, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_peek_char, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_phase, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_pi, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_plusp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_pop, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_position, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_position_if, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_position_if_not, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_pprint, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_pprint_dispatch, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_pprint_exit_if_list_exhausted, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_pprint_fill, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_pprint_indent, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_pprint_linear, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_pprint_logical_block, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_pprint_newline, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_pprint_pop, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_pprint_tab, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_pprint_tabular, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_prin1, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_prin1_to_string, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_princ, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_princ_to_string, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_print, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_print_not_readable, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_print_not_readable_object, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_print_object, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_print_unreadable_object, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_probe_file, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_proclaim, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_prog, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_prog_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_prog1, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_prog2, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_progn, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_program_error, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_progv, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_provide, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_psetf, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_psetq, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_push, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_pushnew, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_quote, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_random, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_random_state, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_random_state_p, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_rassoc, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_rassoc_if, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_rassoc_if_not, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_ratio, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_rational, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_rationalize, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_rationalp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_read, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_read_byte, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_read_char, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_read_char_no_hang, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_read_delimited_list, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_read_from_string, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_read_line, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_read_preserving_whitespace, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_read_sequence, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_reader_error, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_readtable, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_readtable_case, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_readtablep, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_real, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_realp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_realpart, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_reduce, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_reinitialize_instance, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_rem, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_remf, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_remhash, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_remove, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_remove_duplicates, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_remove_if, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_remove_if_not, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_remove_method, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_remprop, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_rename_file, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_rename_package, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_replace, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_require, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_rest, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_restart, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_restart_bind, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_restart_case, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_restart_name, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_return, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_return_from, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_revappend, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_reverse, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_room, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_rotatef, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_round, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_row_major_aref, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_rplaca, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_rplacd, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_safety, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_satisfies, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_sbit, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_scale_float, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_schar, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_search, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_second, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_sequence, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_serious_condition, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_set, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_set_difference, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_set_dispatch_macro_character, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_set_exclusive_or, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_set_macro_character, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_set_pprint_dispatch, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_set_syntax_from_char, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_setf, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_setq, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_seventh, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_shadow, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_shadowing_import, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_shared_initialize, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_shiftf, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_short_float, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_short_float_epsilon, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_short_float_negative_epsilon, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_short_site_name, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_signal, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_signed_byte, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_signum, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_simple_array, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_simple_base_string, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_simple_bit_vector, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_simple_bit_vector_p, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_simple_condition, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_simple_condition_format_arguments, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_simple_condition_format_control, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_simple_error, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_simple_string, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_simple_string_p, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_simple_type_error, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_simple_vector, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_simple_vector_p, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_simple_warning, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_sin, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_single_float, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_single_float_epsilon, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_single_float_negative_epsilon, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_sinh, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_sixth, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_sleep, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_slot_boundp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_slot_exists_p, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_slot_makunbound, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_slot_missing, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_slot_unbound, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_slot_value, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_software_type, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_software_version, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_some, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_sort, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_space, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_special, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_special_operator_p, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_speed, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_sqrt, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_stable_sort, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_standard, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_standard_char, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_standard_char_p, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_standard_class, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_standard_generic_function, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_standard_method, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_standard_object, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_step, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_storage_condition, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_store_value, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_stream, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_stream_element_type, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_stream_error, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_stream_error_stream, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_stream_external_format, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_streamp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_string, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_string_capitalize, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_string_downcase, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_string_equal, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_string_greaterp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_string_left_trim, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_string_lessp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_string_not_equal, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_string_not_greaterp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_string_not_lessp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_string_right_trim, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_string_stream, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_string_trim, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_string_upcase, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_string_slash_equal, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_string_less_than_sign, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_string_less_than_or_equal_sign, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_string_equal_sign, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_string_greater_than_sign, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_string_greater_than_or_equal_sign, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_stringp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_structure, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_structure_class, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_structure_object, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_style_warning, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_sublis, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_subseq, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_subsetp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_subst, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_subst_if, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_subst_if_not, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_substitute, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_substitute_if, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_substitute_if_not, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_subtypep, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_svref, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_sxhash, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_symbol, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_symbol_function, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_symbol_macrolet, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_symbol_name, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_symbol_package, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_symbol_plist, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_symbol_value, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_symbolp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_synonym_stream, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_synonym_stream_symbol, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_t, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_tagbody, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_tailp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_tan, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_tanh, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_tenth, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_terpri, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_the, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_third, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_throw, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_time, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_trace, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_translate_logical_pathname, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_translate_pathname, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_tree_equal, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_truename, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_truncate, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_two_way_stream, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_two_way_stream_input_stream, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_two_way_stream_output_stream, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_type, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_type_error, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_type_error_datum, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_type_error_expected_type, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_type_of, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_typecase, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_typep, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_unbound_slot, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_unbound_slot_instance, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_unbound_variable, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_undefined_function, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_unexport, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_unintern, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_union, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_unless, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_unread_char, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_unsigned_byte, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_untrace, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_unuse_package, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_unwind_protect, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_update_instance_for_different_class, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_update_instance_for_redefined_class, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_upgraded_array_element_type, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_upgraded_complex_part_type, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_upper_case_p, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_use_package, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_use_value, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_user_homedir_pathname, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_values, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_values_list, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_variable, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_vector, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_vector_pop, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_vector_push, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_vector_push_extend, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_vectorp, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_warn, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_warning, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_when, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_wild_pathname_p, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_with_accessors, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_with_compilation_unit, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_with_condition_restarts, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_with_hash_table_iterator, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_with_input_from_string, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_with_open_file, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_with_open_stream, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_with_output_to_string, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_with_package_iterator, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_with_simple_restart, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_with_slots, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_with_standard_io_syntax, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_write, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_write_byte, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_write_char, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_write_line, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_write_sequence, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_write_string, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_write_to_string, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_y_or_n_p, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_yes_or_no_p, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_zerop, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_ampersand_allow_other_keys, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_ampersand_aux, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_ampersand_body, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_ampersand_environment, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_ampersand_key, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_ampersand_optional, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_ampersand_rest, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_ampersand_whole, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_star_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_break_on_signals_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_compile_file_pathname_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_compile_file_truename_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_compile_print_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_compile_verbose_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_debug_io_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_debugger_hook_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_default_pathname_defaults_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_error_output_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_features_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_gensym_counter_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_load_pathname_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_load_print_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_load_truename_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_load_verbose_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_macroexpand_hook_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_modules_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_package_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_print_array_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_print_base_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_print_case_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_print_circle_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_print_escape_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_print_gensym_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_print_length_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_print_level_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_print_lines_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_print_miser_width_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_print_pprint_dispatch_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_print_pretty_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_print_radix_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_print_readably_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_print_right_margin_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_query_io_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_random_state_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_read_base_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_read_default_float_format_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_read_eval_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_read_suppress_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_readtable_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_standard_input_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_standard_output_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_terminal_io_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_star_trace_output_star, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_plus, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_plus_plus, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_plus_plus_plus, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_minus, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_slash, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_slash_slash, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_slash_slash_slash, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_slash_equal, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_one_plus, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_one_minus, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_less_than_sign, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_less_than_or_equal_sign, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_equal_sign, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_greater_than_sign, r -> external_symbols);
-  r -> external_symbols = cfun_cons(symbol_greater_than_or_equal_sign, r -> external_symbols);
+  object symbols[] = {
+    symbol_abort, symbol_abs, symbol_acons, symbol_acos, symbol_acosh, symbol_add_method, symbol_adjoin, symbol_adjust_array, symbol_adjustable_array_p, symbol_allocate_instance, 
+    symbol_alpha_char_p, symbol_alphanumericp, symbol_and, symbol_append, symbol_apply, symbol_apropos, symbol_apropos_list, symbol_aref, symbol_arithmetic_error, symbol_arithmetic_error_operands, 
+    symbol_arithmetic_error_operation, symbol_array, symbol_array_dimension, symbol_array_dimension_limit, symbol_array_dimensons, symbol_array_displacement, symbol_array_element_type, symbol_array_has_fill_pointer_p, symbol_array_in_bounds_p, symbol_array_rank, 
+    symbol_array_rank_limit, symbol_array_row_major_index, symbol_array_total_size, symbol_array_total_size_limit, symbol_arrayp, symbol_ash, symbol_asin, symbol_asinh, symbol_assert, symbol_assoc, 
+    symbol_assoc_if, symbol_assoc_if_not, symbol_atan, symbol_atanh, symbol_atom, symbol_base_char, symbol_base_string, symbol_bignum, symbol_bit, symbol_bit_and, 
+    symbol_bit_andc1, symbol_bit_andc2, symbol_bit_eqv, symbol_bit_ior, symbol_bit_nand, symbol_bit_nor, symbol_bit_not, symbol_bit_orc1, symbol_bit_orc2, symbol_bit_vector, 
+    symbol_bit_vector_p, symbol_bit_xor, symbol_block, symbol_boole, symbol_boole_1, symbol_boole_2, symbol_boole_and, symbol_boole_andc1, symbol_boole_andc2, symbol_boole_c1, 
+    symbol_boole_c2, symbol_boole_clr, symbol_boole_eqv, symbol_boole_ior, symbol_boole_nand, symbol_boole_nor, symbol_boole_orc1, symbol_boole_orc2, symbol_boole_set, symbol_boole_xor, 
+    symbol_boolean, symbol_both_case_p, symbol_boundp, symbol_break, symbol_broadcast_stream, symbol_broadcast_stream_streams, symbol_built_in_class, symbol_butlast, symbol_byte, symbol_byte_position, 
+    symbol_byte_size, symbol_caaaar, symbol_caaadr, symbol_caaar, symbol_caadar, symbol_caaddr, symbol_caadr, symbol_caar, symbol_cadaar, symbol_cadadr, 
+    symbol_cadar, symbol_caddar, symbol_cadddr, symbol_caddr, symbol_cadr, symbol_call_arguments_limit, symbol_call_method, symbol_call_next_method, symbol_car, symbol_case, 
+    symbol_catch, symbol_ccase, symbol_cdaaar, symbol_cdaadr, symbol_cdaar, symbol_cdadar, symbol_cdaddr, symbol_cdadr, symbol_cdar, symbol_cddaar, 
+    symbol_cddadr, symbol_cddar, symbol_cdddar, symbol_cddddr, symbol_cdddr, symbol_cddr, symbol_cdr, symbol_ceiling, symbol_cell_error, symbol_cell_error_name, 
+    symbol_cerror, symbol_change_class, symbol_char, symbol_char_code, symbol_char_code_limit, symbol_char_downcase, symbol_char_equal, symbol_char_greaterp, symbol_char_int, symbol_char_lessp, 
+    symbol_char_name, symbol_char_not_equal, symbol_char_not_greaterp, symbol_char_not_lessp, symbol_char_upcase, symbol_char_not_equal_sign, symbol_char_less_sign, symbol_char_less_or_equal_sign, symbol_char_equal_sign, symbol_char_greater_sign, 
+    symbol_char_greater_or_equal_sign, symbol_character, symbol_characterp, symbol_check_type, symbol_cis, symbol_class, symbol_class_name, symbol_class_of, symbol_clear_input, symbol_clear_output, 
+    symbol_close, symbol_clrhash, symbol_code_char, symbol_coerce, symbol_compilation_speed, symbol_compile, symbol_compile_file, symbol_compile_file_pathname, symbol_compiled_function, symbol_compiled_function_p, 
+    symbol_compiler_macro, symbol_compiler_macro_function, symbol_complement, symbol_complex, symbol_complexp, symbol_compute_applicable_methods, symbol_compute_restarts, symbol_concatenate, symbol_concatenated_stream, symbol_concatenated_stream_streams, 
+    symbol_cond, symbol_condition, symbol_conjugate, symbol_cons, symbol_consp, symbol_constantly, symbol_constantp, symbol_continue, symbol_control_error, symbol_copy_alist, 
+    symbol_copy_list, symbol_copy_pprint_dispatch, symbol_copy_readtable, symbol_copy_seq, symbol_copy_structure, symbol_copy_symbol, symbol_copy_tree, symbol_cos, symbol_cosh, symbol_count, 
+    symbol_count_if, symbol_count_if_not, symbol_ctypecase, symbol_debug, symbol_decf, symbol_declaim, symbol_declaration, symbol_declare, symbol_decode_float, symbol_decode_universal_time, 
+    symbol_defclass, symbol_defconstant, symbol_defgeneric, symbol_define_compiler_macro, symbol_define_condition, symbol_define_method_combination, symbol_define_modify_macro, symbol_define_setf_expander, symbol_define_symbol_macro, symbol_defmacro, 
+    symbol_defmethod, symbol_defpackage, symbol_defparameter, symbol_defsetf, symbol_defstruct, symbol_deftype, symbol_defun, symbol_defvar, symbol_delete, symbol_delete_duplicates, 
+    symbol_delete_file, symbol_delete_if, symbol_delete_if_not, symbol_delete_package, symbol_denominator, symbol_deposit_field, symbol_describe, symbol_describe_object, symbol_destructuring_bind, symbol_digit_char, 
+    symbol_digit_char_p, symbol_directory, symbol_directory_namestring, symbol_disassemble, symbol_division_by_zero, symbol_do, symbol_do_star, symbol_do_all_symbols, symbol_do_external_symbols, symbol_do_symbols, 
+    symbol_documentation, symbol_dolist, symbol_dotimes, symbol_double_float, symbol_double_float_epsilon, symbol_double_float_negative_epsilon, symbol_dpb, symbol_dribble, symbol_dynamic_extent, symbol_ecase, 
+    symbol_echo_stream, symbol_echo_stream_input_stream, symbol_echo_stream_output_stream, symbol_ed, symbol_eighth, symbol_elt, symbol_encode_universal_time, symbol_end_of_file, symbol_endp, symbol_enough_namestring, 
+    symbol_ensure_directories_exist, symbol_ensure_generic_function, symbol_eq, symbol_eql, symbol_equal, symbol_equalp, symbol_error, symbol_etypecase, symbol_eval, symbol_eval_when, 
+    symbol_evenp, symbol_every, symbol_exp, symbol_export, symbol_expt, symbol_extended_char, symbol_fboundp, symbol_fceiling, symbol_fdefinition, symbol_ffloor, 
+    symbol_fifth, symbol_file_author, symbol_file_error, symbol_file_error_pathname, symbol_file_length, symbol_file_namestring, symbol_file_position, symbol_file_stream, symbol_file_string_length, symbol_file_write_date, 
+    symbol_fill, symbol_fill_pointer, symbol_find, symbol_find_all_symbols, symbol_find_class, symbol_find_if, symbol_find_if_not, symbol_find_method, symbol_find_package, symbol_find_restart, 
+    symbol_find_symbol, symbol_finish_output, symbol_first, symbol_fixnum, symbol_flet, symbol_float, symbol_float_digits, symbol_float_precision, symbol_float_radix, symbol_float_sign, 
+    symbol_floating_point_inexact, symbol_floating_point_invalid_operation, symbol_floating_point_overflow, symbol_floating_point_underflow, symbol_floatp, symbol_floor, symbol_fmakunbound, symbol_force_output, symbol_format, symbol_formatter, 
+    symbol_fourth, symbol_fresh_line, symbol_fround, symbol_ftruncate, symbol_ftype, symbol_funcall, symbol_function, symbol_function_keywords, symbol_function_lambda_expression, symbol_functionp, 
+    symbol_gcd, symbol_generic_function, symbol_gensym, symbol_gentemp, symbol_get, symbol_get_decoded_time, symbol_get_dispatch_macro_character, symbol_get_internal_real_time, symbol_get_internal_run_time, symbol_get_macro_character, 
+    symbol_get_output_stream_string, symbol_get_properties, symbol_get_setf_expansion, symbol_get_universal_time, symbol_getf, symbol_gethash, symbol_go, symbol_graphic_char_p, symbol_handler_bind, symbol_handler_case, 
+    symbol_hash_table, symbol_hash_table_count, symbol_hash_table_p, symbol_hash_table_rehash_size, symbol_hash_table_rehash_threshold, symbol_hash_table_size, symbol_hash_table_test, symbol_host_namestring, symbol_identity, symbol_if, 
+    symbol_ignorable, symbol_ignore, symbol_ignore_errors, symbol_imagpart, symbol_import, symbol_in_package, symbol_incf, symbol_initialize_instance, symbol_inline, symbol_input_stream_p, 
+    symbol_inspect, symbol_integer, symbol_integer_decode_float, symbol_integer_length, symbol_integerp, symbol_interactive_stream_p, symbol_intern, symbol_internal_time_units_per_second, symbol_intersection, symbol_invalid_method_error, 
+    symbol_invoke_debugger, symbol_invoke_restart, symbol_invoke_restart_interactively, symbol_isqrt, symbol_keyword, symbol_keywordp, symbol_labels, symbol_lambda, symbol_lambda_list_keywords, symbol_lambda_parameters_limit, 
+    symbol_last, symbol_lcm, symbol_ldb, symbol_ldb_test, symbol_ldiff, symbol_least_negative_double_float, symbol_least_negative_long_float, symbol_least_negative_normalized_double_float, symbol_least_negative_normalized_long_float, symbol_least_negative_normalized_short_float, 
+    symbol_least_negative_normalized_single_float, symbol_least_negative_short_float, symbol_least_negative_single_float, symbol_least_positive_double_float, symbol_least_positive_long_float, symbol_least_positive_normalized_double_float, symbol_least_positive_normalized_long_float, symbol_least_positive_normalized_short_float, symbol_least_positive_normalized_single_float, symbol_least_positive_short_float, 
+    symbol_least_positive_single_float, symbol_length, symbol_let, symbol_let_star, symbol_lisp_implementation_type, symbol_lisp_implementation_version, symbol_list, symbol_list_star, symbol_list_all_packages, symbol_list_length, 
+    symbol_listen, symbol_listp, symbol_load, symbol_load_logical_pathname_translations, symbol_load_time_value, symbol_locally, symbol_log, symbol_logand, symbol_logandc1, symbol_logandc2, 
+    symbol_logbitp, symbol_logcount, symbol_logeqv, symbol_logical_pathname, symbol_logical_pathname_translations, symbol_logior, symbol_lognand, symbol_lognor, symbol_lognot, symbol_logorc1, 
+    symbol_logorc2, symbol_logtest, symbol_logxor, symbol_long_float, symbol_long_float_epsilon, symbol_long_float_negative_epsilon, symbol_long_site_name, symbol_loop, symbol_loop_finish, symbol_lower_case_p, 
+    symbol_machine_instance, symbol_machine_type, symbol_machine_version, symbol_macro_function, symbol_macroexpand, symbol_macroexpand_1, symbol_macrolet, symbol_make_array, symbol_make_broadcast_stream, symbol_make_concatenated_stream, 
+    symbol_make_condition, symbol_make_dispatch_macro_character, symbol_make_echo_stream, symbol_make_hash_table, symbol_make_instance, symbol_make_instances_obsolete, symbol_make_list, symbol_make_load_form, symbol_make_load_form_saving_slots, symbol_make_method, 
+    symbol_make_package, symbol_make_pathname, symbol_make_random_state, symbol_make_sequence, symbol_make_string, symbol_make_string_input_stream, symbol_make_string_output_stream, symbol_make_symbol, symbol_make_synonym_stream, symbol_make_two_way_stream, 
+    symbol_makunbound, symbol_map, symbol_map_into, symbol_mapc, symbol_mapcan, symbol_mapcar, symbol_mapcon, symbol_maphash, symbol_mapl, symbol_maplist, 
+    symbol_mask_field, symbol_max, symbol_member, symbol_member_if, symbol_member_if_not, symbol_merge, symbol_merge_pathnames, symbol_method, symbol_method_combination, symbol_method_combination_error, 
+    symbol_method_qualifiers, symbol_min, symbol_minusp, symbol_mismatch, symbol_mod, symbol_most_negative_double_float, symbol_most_negative_fixnum, symbol_most_negative_long_float, symbol_most_negative_short_float, symbol_most_negative_single_float, 
+    symbol_most_positive_double_float, symbol_most_positive_fixnum, symbol_most_positive_long_float, symbol_most_positive_short_float, symbol_most_positive_single_float, symbol_muffle_warning, symbol_multiple_value_bind, symbol_multiple_value_call, symbol_multiple_value_list, symbol_multiple_value_prog1, 
+    symbol_multiple_value_setq, symbol_multiple_values_limit, symbol_name_char, symbol_namestring, symbol_nbutlast, symbol_nconc, symbol_next_method_p, symbol_nil, symbol_nintersection, symbol_ninth, 
+    symbol_no_applicable_method, symbol_no_next_method, symbol_not, symbol_notany, symbol_notevery, symbol_notinline, symbol_nreconc, symbol_nreverse, symbol_nset_difference, symbol_nset_exclusive_or, 
+    symbol_nstring_capitalize, symbol_nstring_downcase, symbol_nstring_upcase, symbol_nsublis, symbol_nsubst, symbol_nsubst_if, symbol_nsubst_if_not, symbol_nsubstitute, symbol_nsubstitute_if, symbol_nsubstitute_if_not, 
+    symbol_nth, symbol_nth_value, symbol_nthcdr, symbol_null, symbol_number, symbol_numberp, symbol_numerator, symbol_nunion, symbol_oddp, symbol_open, 
+    symbol_open_stream_p, symbol_optimize, symbol_or, symbol_otherwise, symbol_output_stream_p, symbol_package, symbol_package_error, symbol_package_error_package, symbol_package_name, symbol_package_nicknames, 
+    symbol_package_shadowing_symbols, symbol_package_use_list, symbol_package_used_by_list, symbol_packagep, symbol_pairlis, symbol_parse_error, symbol_parse_integer, symbol_parse_namestring, symbol_pathname, symbol_pathname_device, 
+    symbol_pathname_directory, symbol_pathname_host, symbol_pathname_match_p, symbol_pathname_name, symbol_pathname_type, symbol_pathname_version, symbol_pathnamep, symbol_peek_char, symbol_phase, symbol_pi, 
+    symbol_plusp, symbol_pop, symbol_position, symbol_position_if, symbol_position_if_not, symbol_pprint, symbol_pprint_dispatch, symbol_pprint_exit_if_list_exhausted, symbol_pprint_fill, symbol_pprint_indent, 
+    symbol_pprint_linear, symbol_pprint_logical_block, symbol_pprint_newline, symbol_pprint_pop, symbol_pprint_tab, symbol_pprint_tabular, symbol_prin1, symbol_prin1_to_string, symbol_princ, symbol_princ_to_string, 
+    symbol_print, symbol_print_not_readable, symbol_print_not_readable_object, symbol_print_object, symbol_print_unreadable_object, symbol_probe_file, symbol_proclaim, symbol_prog, symbol_prog_star, symbol_prog1, 
+    symbol_prog2, symbol_progn, symbol_program_error, symbol_progv, symbol_provide, symbol_psetf, symbol_psetq, symbol_push, symbol_pushnew, symbol_quote, 
+    symbol_random, symbol_random_state, symbol_random_state_p, symbol_rassoc, symbol_rassoc_if, symbol_rassoc_if_not, symbol_ratio, symbol_rational, symbol_rationalize, symbol_rationalp, 
+    symbol_read, symbol_read_byte, symbol_read_char, symbol_read_char_no_hang, symbol_read_delimited_list, symbol_read_from_string, symbol_read_line, symbol_read_preserving_whitespace, symbol_read_sequence, symbol_reader_error, 
+    symbol_readtable, symbol_readtable_case, symbol_readtablep, symbol_real, symbol_realp, symbol_realpart, symbol_reduce, symbol_reinitialize_instance, symbol_rem, symbol_remf, 
+    symbol_remhash, symbol_remove, symbol_remove_duplicates, symbol_remove_if, symbol_remove_if_not, symbol_remove_method, symbol_remprop, symbol_rename_file, symbol_rename_package, symbol_replace, 
+    symbol_require, symbol_rest, symbol_restart, symbol_restart_bind, symbol_restart_case, symbol_restart_name, symbol_return, symbol_return_from, symbol_revappend, symbol_reverse, 
+    symbol_room, symbol_rotatef, symbol_round, symbol_row_major_aref, symbol_rplaca, symbol_rplacd, symbol_safety, symbol_satisfies, symbol_sbit, symbol_scale_float, 
+    symbol_schar, symbol_search, symbol_second, symbol_sequence, symbol_serious_condition, symbol_set, symbol_set_difference, symbol_set_dispatch_macro_character, symbol_set_exclusive_or, symbol_set_macro_character, 
+    symbol_set_pprint_dispatch, symbol_set_syntax_from_char, symbol_setf, symbol_setq, symbol_seventh, symbol_shadow, symbol_shadowing_import, symbol_shared_initialize, symbol_shiftf, symbol_short_float, 
+    symbol_short_float_epsilon, symbol_short_float_negative_epsilon, symbol_short_site_name, symbol_signal, symbol_signed_byte, symbol_signum, symbol_simple_array, symbol_simple_base_string, symbol_simple_bit_vector, symbol_simple_bit_vector_p, 
+    symbol_simple_condition, symbol_simple_condition_format_arguments, symbol_simple_condition_format_control, symbol_simple_error, symbol_simple_string, symbol_simple_string_p, symbol_simple_type_error, symbol_simple_vector, symbol_simple_vector_p, symbol_simple_warning, 
+    symbol_sin, symbol_single_float, symbol_single_float_epsilon, symbol_single_float_negative_epsilon, symbol_sinh, symbol_sixth, symbol_sleep, symbol_slot_boundp, symbol_slot_exists_p, symbol_slot_makunbound, 
+    symbol_slot_missing, symbol_slot_unbound, symbol_slot_value, symbol_software_type, symbol_software_version, symbol_some, symbol_sort, symbol_space, symbol_special, symbol_special_operator_p, 
+    symbol_speed, symbol_sqrt, symbol_stable_sort, symbol_standard, symbol_standard_char, symbol_standard_char_p, symbol_standard_class, symbol_standard_generic_function, symbol_standard_method, symbol_standard_object, 
+    symbol_step, symbol_storage_condition, symbol_store_value, symbol_stream, symbol_stream_element_type, symbol_stream_error, symbol_stream_error_stream, symbol_stream_external_format, symbol_streamp, symbol_string, 
+    symbol_string_capitalize, symbol_string_downcase, symbol_string_equal, symbol_string_greaterp, symbol_string_left_trim, symbol_string_lessp, symbol_string_not_equal, symbol_string_not_greaterp, symbol_string_not_lessp, symbol_string_right_trim, 
+    symbol_string_stream, symbol_string_trim, symbol_string_upcase, symbol_string_slash_equal, symbol_string_less_than_sign, symbol_string_less_than_or_equal_sign, symbol_string_equal_sign, symbol_string_greater_than_sign, symbol_string_greater_than_or_equal_sign, symbol_stringp, 
+    symbol_structure, symbol_structure_class, symbol_structure_object, symbol_style_warning, symbol_sublis, symbol_subseq, symbol_subsetp, symbol_subst, symbol_subst_if, symbol_subst_if_not, 
+    symbol_substitute, symbol_substitute_if, symbol_substitute_if_not, symbol_subtypep, symbol_svref, symbol_sxhash, symbol_symbol, symbol_symbol_function, symbol_symbol_macrolet, symbol_symbol_name, 
+    symbol_symbol_package, symbol_symbol_plist, symbol_symbol_value, symbol_symbolp, symbol_synonym_stream, symbol_synonym_stream_symbol, symbol_t, symbol_tagbody, symbol_tailp, symbol_tan, 
+    symbol_tanh, symbol_tenth, symbol_terpri, symbol_the, symbol_third, symbol_throw, symbol_time, symbol_trace, symbol_translate_logical_pathname, symbol_translate_pathname, 
+    symbol_tree_equal, symbol_truename, symbol_truncate, symbol_two_way_stream, symbol_two_way_stream_input_stream, symbol_two_way_stream_output_stream, symbol_type, symbol_type_error, symbol_type_error_datum, symbol_type_error_expected_type, 
+    symbol_type_of, symbol_typecase, symbol_typep, symbol_unbound_slot, symbol_unbound_slot_instance, symbol_unbound_variable, symbol_undefined_function, symbol_unexport, symbol_unintern, symbol_union, 
+    symbol_unless, symbol_unread_char, symbol_unsigned_byte, symbol_untrace, symbol_unuse_package, symbol_unwind_protect, symbol_update_instance_for_different_class, symbol_update_instance_for_redefined_class, symbol_upgraded_array_element_type, symbol_upgraded_complex_part_type, 
+    symbol_upper_case_p, symbol_use_package, symbol_use_value, symbol_user_homedir_pathname, symbol_values, symbol_values_list, symbol_variable, symbol_vector, symbol_vector_pop, symbol_vector_push, 
+    symbol_vector_push_extend, symbol_vectorp, symbol_warn, symbol_warning, symbol_when, symbol_wild_pathname_p, symbol_with_accessors, symbol_with_compilation_unit, symbol_with_condition_restarts, symbol_with_hash_table_iterator, 
+    symbol_with_input_from_string, symbol_with_open_file, symbol_with_open_stream, symbol_with_output_to_string, symbol_with_package_iterator, symbol_with_simple_restart, symbol_with_slots, symbol_with_standard_io_syntax, symbol_write, symbol_write_byte, 
+    symbol_write_char, symbol_write_line, symbol_write_sequence, symbol_write_string, symbol_write_to_string, symbol_y_or_n_p, symbol_yes_or_no_p, symbol_zerop, symbol_ampersand_allow_other_keys, symbol_ampersand_aux, 
+    symbol_ampersand_body, symbol_ampersand_environment, symbol_ampersand_key, symbol_ampersand_optional, symbol_ampersand_rest, symbol_ampersand_whole, symbol_star, symbol_star_star, symbol_star_star_star, symbol_star_break_on_signals_star, 
+    symbol_star_compile_file_pathname_star, symbol_star_compile_file_truename_star, symbol_star_compile_print_star, symbol_star_compile_verbose_star, symbol_star_debug_io_star, symbol_star_debugger_hook_star, symbol_star_default_pathname_defaults_star, symbol_star_error_output_star, symbol_star_features_star, symbol_star_gensym_counter_star, 
+    symbol_star_load_pathname_star, symbol_star_load_print_star, symbol_star_load_truename_star, symbol_star_load_verbose_star, symbol_star_macroexpand_hook_star, symbol_star_modules_star, symbol_star_package_star, symbol_star_print_array_star, symbol_star_print_base_star, symbol_star_print_case_star, 
+    symbol_star_print_circle_star, symbol_star_print_escape_star, symbol_star_print_gensym_star, symbol_star_print_length_star, symbol_star_print_level_star, symbol_star_print_lines_star, symbol_star_print_miser_width_star, symbol_star_print_pprint_dispatch_star, symbol_star_print_pretty_star, symbol_star_print_radix_star, 
+    symbol_star_print_readably_star, symbol_star_print_right_margin_star, symbol_star_query_io_star, symbol_star_random_state_star, symbol_star_read_base_star, symbol_star_read_default_float_format_star, symbol_star_read_eval_star, symbol_star_read_suppress_star, symbol_star_readtable_star, symbol_star_standard_input_star, 
+    symbol_star_standard_output_star, symbol_star_terminal_io_star, symbol_star_trace_output_star, symbol_plus, symbol_plus_plus, symbol_plus_plus_plus, symbol_minus, symbol_slash, symbol_slash_slash, symbol_slash_slash_slash, 
+    symbol_slash_equal, symbol_one_plus, symbol_one_minus, symbol_less_than_sign, symbol_less_than_or_equal_sign, symbol_equal_sign, symbol_greater_than_sign, symbol_greater_than_or_equal_sign, 
+  };
+  int size = sizeof(symbols) / sizeof(symbols[0]);
+  for (int i = 0; i < size; i++) {
+    object symbol = symbols[i];
+    object name = cfun_symbol_name(symbol);
+    object result = cfun_find_symbol(name, package_common_lisp);
+    if (result == 0) {
+      package_add_external_symbol(package_common_lisp, symbol);
+    } 
+  }
   package_initialized_2_p = 1;
 }
 

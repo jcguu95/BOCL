@@ -41,11 +41,23 @@ int main(void)
   printf("\n");
   cfun_print(cfun_string_to_string("LISP"), standard_output);
   printf("\n");
+  printf("\n");
+
+  printf("Current Package: ");
+  cfun_print(current_package, standard_output);
+  printf("\n");
+  printf("\n");
 
   /* Print a lisp package. */
+  printf("Info about: ");
   cfun_print(package_common_lisp, standard_output);
   printf("\n");
-  cfun_print(current_package, standard_output);
+  printf("> Amount of external symbols: ");
+  cfun_print(cfun_length(cfun_package_external_symbols(package_common_lisp)), standard_output);
+  printf("\n");
+  printf("> Amount of internal symbols: ");
+  cfun_print(cfun_length(cfun_package_internal_symbols(package_common_lisp)), standard_output);
+  printf("\n");
   printf("\n");
 
   /* Intern and print a lisp symbol. */

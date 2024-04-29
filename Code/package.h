@@ -15,6 +15,8 @@ extern object cfun_package_name(object maybe_package);
 extern object cfun_find_symbol(object string, object package);
 extern object cfun_intern(object string, object package);
 
+extern object cfun_package_external_symbols(object package);
+extern object cfun_package_internal_symbols(object package);
 extern void package_add_external_symbol(object package, object symbol);
 extern void package_add_internal_symbol(object package, object symbol);
 extern void intern(object string, object package);
