@@ -189,9 +189,15 @@ int main(void)
   cfun_assert
     (cfun_equal
      (cfun_c_string_to_string("LOL"),
-      cfun_c_string_to_string(cfun_string_to_c_string(cfun_c_string_to_string("LOL")))
-      ));
+      cfun_c_string_to_string(cfun_string_to_c_string(cfun_c_string_to_string("LOL")))));
   printf("PASS: String Conversion Test.");
+  printf("\n");
+
+  cfun_assert
+    (cfun_equal
+     (cfun_c_char_to_character('a'),
+      cfun_c_char_to_character(cfun_character_to_c_char(cfun_c_char_to_character('a')))));
+  printf("PASS: Character Conversion Test.");
   printf("\n");
 
   /* Test for mini_reader */
