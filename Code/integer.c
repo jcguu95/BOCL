@@ -43,7 +43,7 @@ cfun_c_integer_to_integer(signed long int c_integer)
   object obj = make_object();
   integer_rack r = (integer_rack) malloc(integer_rack_size);
   set_class_of(obj, class_integer);
-  set_rack_of(obj, &(r->prefix));
+  set_rack_of(obj, (rack) r);
   mpz_init(r -> value);
   mpz_set_si(r -> value, c_integer);
   return obj;
@@ -54,16 +54,17 @@ cfun_integer_to_c_integer(object integer)
 {
   /* DOC: Turn a lisp integer into a C integer. */
   assert(cfun_integerp(integer) == symbol_t);
+  /* FIXME: If overflow, would it say anything? */
   return mpz_get_si(((integer_rack) rack_of(integer)) -> value);
 }
 
 object
 cfun_binary_add_integer(object augend, object addend)
 {
-  object obj = (object) malloc(header_size);
-  integer_rack r = (integer_rack) malloc(integer_rack_size);
   assert(cfun_integerp(augend) == symbol_t);
   assert(cfun_integerp(addend) == symbol_t);
+  object obj = (object) malloc(header_size);
+  integer_rack r = (integer_rack) malloc(integer_rack_size);
   set_class_of(obj, class_integer);
   set_rack_of(obj, (rack) r);
   mpz_init(r -> value);
