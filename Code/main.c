@@ -78,6 +78,7 @@ int main(void)
   object obj_arr[] = {cfun_string_to_string("LISP"), x, y, z, symbol_nil};
   size_t size = sizeof(obj_arr) / sizeof(obj_arr[0]);
   cfun_print(cfun_list(obj_arr, size), standard_output);
+  printf("  ; OK: x0001");
   printf("\n");
 
   cfun_assert
@@ -94,9 +95,24 @@ int main(void)
 
   cfun_assert
     (cfun_equal
-     (substandard_reader(str_to_stream("nil")),
+     (substandard_reader(str_to_stream("niL")),
       symbol_nil));
   printf("PASS: NIL test 2.");
+  printf("\n");
+
+  cfun_assert
+    (cfun_equal
+     (substandard_reader(str_to_stream("IF")),
+      substandard_reader(str_to_stream("IF"))));
+  printf("PASS: External symbol test.");
+  printf("\n");
+
+  /* FIXME */
+  cfun_assert
+    (cfun_equal
+     (substandard_reader(str_to_stream("ADHOC_symbol")),
+      substandard_reader(str_to_stream("ADHOC_Symbol"))));
+  printf("PASS: Internal symbol test.");
   printf("\n");
 
   cfun_assert
@@ -107,7 +123,7 @@ int main(void)
        (z, symbol_nil)),
       substandard_reader
       (str_to_stream("(42 42)"))));
-  printf("PASS: List Test.");
+  printf("PASS: List Test 1.");
   printf("\n");
 
   cfun_assert
