@@ -107,7 +107,6 @@ int main(void)
   printf("PASS: External symbol test.");
   printf("\n");
 
-  /* FIXME */
   cfun_assert
     (cfun_equal
      (substandard_reader(str_to_stream("ADHOC_symbol")),
