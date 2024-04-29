@@ -44,20 +44,25 @@ cfun_eql (object x, object y) {
 object
 cfun_equal (object x, object y) {
   /* DOC: https://novaspec.org/cl/f_equal */
-  /* TODO: General Arrays, Pathnames, Structures, Hash-Tables, Instances.. */
-  /* TODO: Rewrite using cfun_and */
+  /* TODO: General Arrays, Pathnames */
   if (cfun_eq(x,y) == symbol_t) {
     return symbol_t;
-  } else if (cfun_integerp(x)==symbol_t && cfun_integerp(y)==symbol_t) {
+  } else if (cfun_integerp(x)==symbol_t &&
+             cfun_integerp(y)==symbol_t) {
     return cfun_eql(x,y);
-  } else if (cfun_characterp(x)==symbol_t && cfun_characterp(y)==symbol_t) {
+  } else if (cfun_characterp(x)==symbol_t &&
+             cfun_characterp(y)==symbol_t) {
     return cfun_eql(x,y);
-  } else if (cfun_symbolp(x)==symbol_t && cfun_symbolp(y)==symbol_t) {
+  } else if (cfun_symbolp(x)==symbol_t &&
+             cfun_symbolp(y)==symbol_t) {
     return cfun_eq(x,y);
-  } else if (cfun_consp(x)==symbol_t && cfun_consp(y)==symbol_t) {
-    return cfun_and (cfun_equal(cfun_car(x), cfun_car(y)),
-                     cfun_equal(cfun_cdr(x), cfun_cdr(y)));
-  } else if (cfun_stringp(x)==symbol_t && cfun_stringp(y)==symbol_t) {
+  } else if (cfun_consp(x)==symbol_t &&
+             cfun_consp(y)==symbol_t) {
+    return cfun_and
+            (cfun_equal(cfun_car(x), cfun_car(y)),
+             cfun_equal(cfun_cdr(x), cfun_cdr(y)));
+  } else if (cfun_stringp(x)==symbol_t &&
+             cfun_stringp(y)==symbol_t) {
     return cfun_string_equal_sign(x,y);
   } else {
     return symbol_nil;
