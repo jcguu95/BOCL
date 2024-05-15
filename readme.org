@@ -13,3 +13,5 @@
 4. Implement an evaluator and 25 special ops.
 
    https://novaspec.org/cl/3_1_Evaluation#sec_3_1_2_1_2_1
+
+   For the environment object, I may want to look at Trucler.
